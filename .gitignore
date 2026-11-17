@@ -1,0 +1,22 @@
+# Build
+bin/
+obj/
+dist/
+*.user
+*.suo
+.vs/
+*.binlog
+
+# Dados locais
+store.json
+session.json
+*.log
+solo2.log
+
+# Site: o executável fica nas Releases, não no repositório
+site/downloads/
+
+# Sistema
+Thumbs.db
+Desktop.ini
+.DS_Store

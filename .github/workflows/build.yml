@@ -1,0 +1,56 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          cache: true
+          cache-dependency-path: src/SoloMangas/SoloMangas.csproj
+
+      - name: Restore
+        run: dotnet restore src/SoloMangas/SoloMangas.csproj
+
+      - name: Build
+        run: dotnet build src/SoloMangas/SoloMangas.csproj -c Release --no-restore
+
+      - name: Publish single-file
+        run: >
+          dotnet publish src/SoloMangas/SoloMangas.csproj -c Release -r win-x64
+          --self-contained true -p:PublishSingleFile=true -o dist
+
+      - name: Verificar executável
+        shell: pwsh
+        run: |
+          $exe = Get-Item .\dist\SoloMangas.exe
+          [xml]$csproj = Get-Content .\src\SoloMangas\SoloMangas.csproj
+          $version = ($csproj.Project.PropertyGroup | Where-Object { $_.Version } | Select-Object -First 1).Version
+          $fileVersion = $exe.VersionInfo.FileVersion
+          Write-Host "arquivo : $($exe.Name)"
+          Write-Host "tamanho : $([math]::Round($exe.Length / 1MB, 1)) MB"
+          Write-Host "versão  : $fileVersion (csproj $version)"
+          if ($exe.Length -lt 60MB) { throw 'Executável menor que o esperado.' }
+          if (-not $fileVersion.StartsWith($version)) { throw "Versão do executável não corresponde ao csproj." }
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SoloMangas-win-x64
+          path: dist/SoloMangas.exe
+          if-no-files-found: error

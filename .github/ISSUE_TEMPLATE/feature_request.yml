@@ -1,0 +1,46 @@
+name: Feature request
+description: Sugira uma melhoria para o Solo Mangás
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Descreva o problema que a melhoria resolve e como você imagina a solução.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema ou necessidade
+      placeholder: "Hoje preciso fazer X manualmente porque..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Solução proposta
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Catálogo / busca
+        - Leitor
+        - Favoritos / histórico
+        - Fontes
+        - Interface
+        - Atualizações
+        - Desempenho
+        - Documentação
+        - Outro
+    validations:
+      required: true

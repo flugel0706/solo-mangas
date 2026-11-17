@@ -1,0 +1,93 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish autocontido
+        run: >
+          dotnet publish src/SoloMangas/SoloMangas.csproj -c Release -r win-x64
+          --self-contained true -p:PublishSingleFile=true -o dist
+
+      - name: Preparar assets
+        shell: pwsh
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          [xml]$csproj = Get-Content .\src\SoloMangas\SoloMangas.csproj
+          $version = ($csproj.Project.PropertyGroup | Where-Object { $_.Version } | Select-Object -First 1).Version
+          if ($tag.TrimStart('v') -ne $version) {
+            throw "A tag $tag não corresponde à versão $version do csproj."
+          }
+
+          $exe = Get-Item .\dist\SoloMangas.exe
+          if (-not $exe.VersionInfo.FileVersion.StartsWith($version)) {
+            throw "FileVersion $($exe.VersionInfo.FileVersion) não corresponde a $version."
+          }
+
+          $assetName = "Solo-Mangas-$version.exe"
+          Copy-Item $exe.FullName "dist/$assetName" -Force
+          $asset = Get-Item "dist/$assetName"
+          $hash = (Get-FileHash $asset.FullName -Algorithm SHA256).Hash
+
+          $notesFile = "docs/releases/$tag.update.txt"
+          $notes = if (Test-Path $notesFile) { (Get-Content $notesFile -Raw).Trim() } else { "Versão $version" }
+          $manifest = [ordered]@{
+            version = $version
+            url     = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/$tag/$assetName"
+            sha256  = $hash
+            size    = $asset.Length
+            notes   = $notes
+          }
+          [IO.File]::WriteAllText(
+            (Join-Path $PWD 'dist/update.json'),
+            ($manifest | ConvertTo-Json -Depth 3),
+            (New-Object Text.UTF8Encoding($false)))
+
+          "$($hash.ToLowerInvariant())  $assetName" | Set-Content dist/SHA256SUMS.txt -Encoding ASCII
+          Get-ChildItem dist -File | Select-Object Name, Length | Format-Table -AutoSize
+
+      - name: Criar ou atualizar release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          $version = $tag.TrimStart('v')
+          $assets = @(
+            "dist/Solo-Mangas-$version.exe",
+            'dist/SHA256SUMS.txt',
+            'dist/update.json'
+          )
+
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Release $tag já existe; assets preservados (nenhuma sobrescrita)."
+            exit 0
+          }
+          else {
+            $notesFile = "docs/releases/$tag.md"
+            if (Test-Path $notesFile) {
+              gh release create $tag @assets --title "Solo Mangás $version" --notes-file $notesFile --latest
+            }
+            else {
+              gh release create $tag @assets --title "Solo Mangás $version" --generate-notes --latest
+            }
+          }
+          if ($LASTEXITCODE -ne 0) { throw 'Falha ao publicar a release.' }

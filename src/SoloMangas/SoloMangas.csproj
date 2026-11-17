@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>SoloMangas</AssemblyName>
+    <RootNamespace>SoloMangasNative</RootNamespace>
+    <StartupObject>SoloMangasNative.Program</StartupObject>
+    <Version>2.7.0</Version>
+    <AssemblyVersion>2.7.0.0</AssemblyVersion>
+    <FileVersion>2.7.0.0</FileVersion>
+    <Product>Solo Mangás</Product>
+    <AssemblyTitle>Solo Mangás</AssemblyTitle>
+    <Description>Leitor nativo de mangás, manhwas e manhuas</Description>
+    <Company>SoloMangas</Company>
+    <Copyright>Copyright (c) 2026 Solo Mangás</Copyright>
+    <ApplicationIcon>..\Shared\icon.ico</ApplicationIcon>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <SatelliteResourceLanguages>pt-BR;en</SatelliteResourceLanguages>
+    <NoWarn>CA1416</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\AppPaths.cs" Link="Shared\AppPaths.cs" />
+    <Compile Include="..\Shared\HttpUtil.cs" Link="Shared\HttpUtil.cs" />
+    <Compile Include="..\Shared\SessionStore.cs" Link="Shared\SessionStore.cs" />
+    <Compile Include="..\Shared\MangeekApi.cs" Link="Shared\MangeekApi.cs" />
+    <Compile Include="..\Shared\ManhastroApi.cs" Link="Shared\ManhastroApi.cs" />
+    <Compile Include="..\Shared\LerMangaApi.cs" Link="Shared\LerMangaApi.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
+    <PackageReference Include="Magick.NET-Q8-x64" Version="14.17.2" />
+  </ItemGroup>
+
+</Project>

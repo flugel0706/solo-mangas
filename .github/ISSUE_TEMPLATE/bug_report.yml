@@ -1,0 +1,84 @@
+name: Bug report
+description: Reporte um comportamento incorreto no Solo Mangás
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar. Preencha as informações abaixo para facilitar a reprodução.
+        Não inclua dados pessoais em logs, capturas ou backups.
+
+  - type: input
+    id: version
+    attributes:
+      label: Versão do Solo Mangás
+      description: Configurações → Sobre
+      placeholder: "2.7.0"
+    validations:
+      required: true
+
+  - type: input
+    id: windows
+    attributes:
+      label: Versão do Windows
+      placeholder: "Windows 11 23H2 x64"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: source
+    attributes:
+      label: Fonte
+      options:
+        - Mangeek
+        - Manhastro
+        - Ler Mangá Online
+        - MangaDex
+        - MangaFlix
+        - MangaLivre
+        - Hanami Heaven
+        - HQ Brasa
+        - Melhor Hentai
+        - MangaDex +18
+        - Todas / não se aplica
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir
+      placeholder: |
+        1. Abrir o app
+        2. Ir em ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportamento observado
+    validations:
+      required: true
+
+  - type: textarea
+    id: log
+    attributes:
+      label: Log relevante
+      description: Trecho de `%TEMP%\solo2.log` com `SOLO_DEBUG=1`
+      render: text
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Contexto adicional
+      description: Capturas de tela, obra/capítulo, modo +18 ligado etc.

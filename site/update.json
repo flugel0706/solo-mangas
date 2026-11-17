@@ -1,0 +1,7 @@
+{
+  "version": "2.7.0",
+  "url": "https://github.com/flugel0706/solo-mangas/releases/download/v2.7.0/Solo-Mangas-2.7.0.exe",
+  "sha256": "96E3D55523CFBE59505DA304C68C0761349728A22028A1DF5ED29F1A3EC5372B",
+  "size": 82928547,
+  "notes": "2.7 — capas, busca e telas mais rápidas\n\n• Cada capa é baixada uma única vez e reaproveitada no destaque, nos cards, em favoritos e no Continuar lendo\n• Imagens carregam só quando entram na tela, com cache em disco de até 1,2 GB e limpeza automática\n• A busca global mostra cada fonte assim que ela responde, com cache de resultados por 2,5 minutos\n• Tela inicial com cabeçalho fixo, busca, botão Atualizar, contador de obras e esqueletos de carregamento\n• Cantos arredondados reais nas capas e letra de reserva quando a fonte não devolve a imagem\n• Favoritos, histórico e progresso de leitura continuam intactos"
+}

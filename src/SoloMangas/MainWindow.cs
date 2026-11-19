@@ -48,7 +48,7 @@ namespace SoloMangasNative
 
         public MainWindow()
         {
-            Title = "Solo Mangás 2.7";
+            Title = "Solo Mangás " + UpdateService.CurrentLabel;
             var area = SystemParameters.WorkArea;
             Width = Math.Max(900, Math.Min(1360, area.Width - 24));
             Height = Math.Max(600, Math.Min(900, area.Height - 24));
@@ -69,7 +69,58 @@ namespace SoloMangasNative
             _root.ColumnDefinitions.Add(_sidebarCol = new ColumnDefinition { Width = new GridLength(252) });
             _root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-            // Halo vermelho suave no canto superior esquerdo: dá profundidade ao tema.
+            // Papel de parede do tema Call of Duty: imagem real por baixo de
+            // tudo, com película escura para manter a leitura confortável.
+            if (Theme.HasWallpaper && Theme.Wallpaper != null)
+            {
+                var wallpaper = new Image
+                {
+                    Source = Theme.Wallpaper,
+                    Stretch = Stretch.UniformToFill,
+                    IsHitTestVisible = false,
+                    Opacity = 0.95,
+                };
+                RenderOptions.SetBitmapScalingMode(wallpaper, BitmapScalingMode.HighQuality);
+                Grid.SetColumnSpan(wallpaper, 2);
+                _root.Children.Add(wallpaper);
+
+                // A película escurece mais a esquerda (onde ficam os textos) e
+                // deixa o por do sol e a silhueta aparecerem à direita.
+                var shade = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0),
+                    EndPoint = new Point(1, 1),
+                    GradientStops =
+                    {
+                        new GradientStop(Color.FromArgb(0xE0, 0x05, 0x08, 0x05), 0),
+                        new GradientStop(Color.FromArgb(0xA2, 0x06, 0x0A, 0x06), 0.32),
+                        new GradientStop(Color.FromArgb(0x7A, 0x07, 0x0B, 0x07), 0.66),
+                        new GradientStop(Color.FromArgb(0xAC, 0x03, 0x05, 0x03), 1),
+                    },
+                };
+                shade.Freeze();
+                var dim = new Border { Background = shade, IsHitTestVisible = false };
+                Grid.SetColumnSpan(dim, 2);
+                _root.Children.Add(dim);
+
+                // Linhas finas de "visor" por cima do fundo, bem discretas.
+                var scan = new DrawingBrush
+                {
+                    TileMode = TileMode.Tile,
+                    Viewport = new Rect(0, 0, 4, 4),
+                    ViewportUnits = BrushMappingMode.Absolute,
+                    Drawing = new GeometryDrawing(
+                        null,
+                        new Pen(new SolidColorBrush(Color.FromArgb(0x14, 0xFF, 0xFF, 0xFF)), 1),
+                        new LineGeometry(new Point(0, 0.5), new Point(4, 0.5))),
+                };
+                scan.Freeze();
+                var scanlines = new Rectangle { Fill = scan, IsHitTestVisible = false };
+                Grid.SetColumnSpan(scanlines, 2);
+                _root.Children.Add(scanlines);
+            }
+
+            // Halo de acento suave no canto superior esquerdo: dá profundidade ao tema.
             var glow = new Border
             {
                 IsHitTestVisible = false,
@@ -81,8 +132,8 @@ namespace SoloMangasNative
                     RadiusY = 0.7,
                     GradientStops =
                     {
-                        new GradientStop(Color.FromArgb(0x38, 0xE0, 0x14, 0x34), 0),
-                        new GradientStop(Color.FromArgb(0x00, 0xE0, 0x14, 0x34), 0.62),
+                        new GradientStop(Theme.Glow1Color, 0),
+                        new GradientStop(Color.FromArgb(0x00, Theme.Glow1Color.R, Theme.Glow1Color.G, Theme.Glow1Color.B), 0.62),
                     },
                 },
             };
@@ -101,8 +152,8 @@ namespace SoloMangasNative
                     RadiusY = 0.5,
                     GradientStops =
                     {
-                        new GradientStop(Color.FromArgb(0x1E, 0xFF, 0x4A, 0x66), 0),
-                        new GradientStop(Color.FromArgb(0x00, 0xFF, 0x4A, 0x66), 0.7),
+                        new GradientStop(Theme.Glow2Color, 0),
+                        new GradientStop(Color.FromArgb(0x00, Theme.Glow2Color.R, Theme.Glow2Color.G, Theme.Glow2Color.B), 0.7),
                     },
                 },
             };
@@ -112,9 +163,7 @@ namespace SoloMangasNative
             // ---------------- Sidebar ----------------
             _sidebar = new Border
             {
-                Background = new LinearGradientBrush(
-                    Color.FromRgb(0x14, 0x08, 0x0C), Color.FromRgb(0x0B, 0x05, 0x07),
-                    new Point(0, 0), new Point(0, 1)),
+                Background = Theme.Sidebar,
                 BorderBrush = Theme.Line,
                 BorderThickness = new Thickness(0, 0, 1, 0),
             };
@@ -235,7 +284,7 @@ namespace SoloMangasNative
 
             footer.Children.Add(new TextBlock
             {
-                Text = "v2.7 · sangue & aço",
+                Text = "v" + UpdateService.CurrentLabel + "  ·  " + Theme.Name,
                 FontSize = 10.5,
                 Foreground = Theme.Muted,
                 Margin = new Thickness(4, 4, 0, 0),
@@ -261,7 +310,7 @@ namespace SoloMangasNative
             _toastText = new TextBlock { Foreground = Theme.Text, FontSize = 13, TextWrapping = TextWrapping.Wrap };
             _toast = new Border
             {
-                Background = new SolidColorBrush(Color.FromArgb(0xF4, 0x22, 0x0D, 0x13)),
+                Background = Theme.Toast,
                 BorderBrush = Theme.AccentLine,
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(12),
@@ -884,9 +933,7 @@ namespace SoloMangasNative
         {
             _toastText.Text = message;
             _toast.BorderBrush = error ? Theme.Accent2 : Theme.AccentLine;
-            _toast.Background = new SolidColorBrush(error
-                ? Color.FromArgb(0xF4, 0x2C, 0x0C, 0x14)
-                : Color.FromArgb(0xF4, 0x22, 0x0D, 0x13));
+            _toast.Background = error ? Theme.ToastError : Theme.Toast;
             _toast.Visibility = Visibility.Visible;
             _toastTimer.Stop();
             _toastTimer.Start();

@@ -4,7 +4,7 @@ Guia completo do Solo Mangás. Para instalação rápida, veja o [README](../REA
 
 ## Instalação
 
-O Solo Mangás é portátil: baixe `Solo-Mangas-2.7.0.exe` e execute. Não há
+O Solo Mangás é portátil: baixe `Solo-Mangas-2.8.0.exe` e execute. Não há
 instalador, serviço ou driver.
 
 - O executável é **autocontido**: não precisa de .NET nem WebView2.
@@ -35,6 +35,18 @@ A fonte **Mangeek** usa a mesma conta do app Android:
 4. O redirecionamento é interceptado, o código é trocado pelo JWT e a janela fecha.
 
 As demais fontes não exigem conta.
+
+## Temas
+
+A 2.8 abre no tema **Call of Duty**: foto real de fundo, carvão/oliva, dourado e
+tipografia Bahnschrift. Para voltar ao visual clássico:
+
+1. **Configurações → Aparência → Tema**.
+2. Clique no botão do tema (mostra o tema atual).
+3. Confirme **Sim** para reiniciar e aplicar.
+
+A escolha fica salva em `store.json` e vale nas próximas aberturas. O tema
+**Sangue & aço** é o visual vermelho/preto das versões anteriores.
 
 ## Fontes e modo +18
 
@@ -78,6 +90,10 @@ Ao abrir um capítulo:
 **Leitura contínua** (Configurações → Leitor) emenda o próximo capítulo no fim
 do atual, sem trocar de tela. A barra de progresso acompanha a rolagem.
 
+**Ordem dos capítulos** (Configurações → Leitor) define como a lista abre na
+página da obra: último → 1º (padrão) ou 1º → último. O botão de ordem dentro da
+obra continua alternando na hora, sem alterar a preferência salva.
+
 ## Biblioteca
 
 - **Favoritos** — coração na página da obra. Lista em **Favoritos** na barra lateral.
@@ -89,14 +105,17 @@ do atual, sem trocar de tela. A barra de progresso acompanha a rolagem.
 
 | Opção | Efeito |
 |---|---|
+| Tema | Call of Duty (foto real, oliva/dourado) ou Sangue & aço (clássico) |
 | Conteúdo +18 | Libera obras e fontes adultas |
 | Título preferido | Português ou nome original, quando a fonte oferece os dois |
 | Busca global | Consulta todas as fontes de uma vez |
 | Leitura contínua | Emenda o próximo capítulo no fim do atual |
 | Largura da página | Automática, compacta, confortável ou ampla |
 | Modo de leitura | Webtoon ou página a página |
+| Ordem dos capítulos | Último → 1º ou 1º → último ao abrir a obra |
 | Pasta de dados | Abre `%APPDATA%\SoloMangas` no Explorer |
 | Backup dos dados | Exporta favoritos, histórico, posições e preferências em JSON |
+| Restaurar backup | Importa um JSON exportado e mescla os dados |
 | Cache de imagens | Mostra o tamanho e permite limpar |
 | Histórico / favoritos | Limpeza com confirmação |
 | Verificar atualizações | Abre a janela de atualização |
@@ -113,8 +132,10 @@ do atual, sem trocar de tela. A barra de progresso acompanha a rolagem.
 | `%LOCALAPPDATA%\SoloMangas\cache\img` | Cache de imagens |
 
 O backup em **Configurações → Backup dos dados** copia o `store.json` para o
-arquivo escolhido. Para restaurar, feche o app e copie o backup de volta para
-`%APPDATA%\SoloMangas\store.json`.
+arquivo escolhido. Para restaurar, use **Configurações → Restaurar backup** e
+escolha o JSON: o app mescla favoritos, histórico, lidos, posições e pesquisas,
+sem apagar o que já existe nem duplicar entradas. Também é possível fechar o app
+e copiar o backup de volta para `%APPDATA%\SoloMangas\store.json`.
 
 ## Solução de problemas
 

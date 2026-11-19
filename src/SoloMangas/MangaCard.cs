@@ -81,7 +81,7 @@ namespace SoloMangasNative
                 FontSize = 52,
                 FontWeight = FontWeights.Bold,
                 FontFamily = Theme.Display,
-                Foreground = new SolidColorBrush(Color.FromArgb(0x3A, 0xFF, 0x3D, 0x5A)),
+                Foreground = Theme.AccentSoft,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
             };
@@ -96,8 +96,8 @@ namespace SoloMangasNative
                 IsHitTestVisible = false,
                 Opacity = 0,
                 Background = new LinearGradientBrush(
-                    Color.FromArgb(0x00, 0xE8, 0x11, 0x38),
-                    Color.FromArgb(0x42, 0xE8, 0x11, 0x38),
+                    Theme.Tint(0x00),
+                    Theme.Tint(0x42),
                     new Point(0, 0), new Point(1, 1)),
             };
             grid.Children.Add(_sheen);
@@ -148,7 +148,7 @@ namespace SoloMangasNative
                 Width = 28,
                 Height = 28,
                 CornerRadius = new CornerRadius(14),
-                Background = new SolidColorBrush(Color.FromArgb(0xB8, 0x08, 0x04, 0x06)),
+                Background = new SolidColorBrush(Theme.Shade(0xB8)),
                 BorderBrush = new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF)),
                 BorderThickness = new Thickness(1),
                 HorizontalAlignment = HorizontalAlignment.Right,

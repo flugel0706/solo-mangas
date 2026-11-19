@@ -54,9 +54,7 @@ namespace SoloMangasNative
 
             var root = new Border
             {
-                Background = new LinearGradientBrush(
-                    Color.FromRgb(0x12, 0x08, 0x0C), Color.FromRgb(0x08, 0x04, 0x06),
-                    new Point(0, 0), new Point(0, 1)),
+                Background = Theme.GradPanel,
                 Padding = new Thickness(26, 22, 26, 24),
             };
 

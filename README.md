@@ -13,7 +13,7 @@
 
 [Download](#download) · [Recursos](#recursos) · [Fontes](#fontes) · [Atualizações](#atualizações-integradas) · [Compilar](#compilar-do-c%C3%B3digo-fonte) · [FAQ](docs/faq.md)
 
-<img src="site/assets/screenshots/home.png" alt="Tela inicial do Solo Mangás 2.7" width="900">
+<img src="site/assets/screenshots/home.png" alt="Tela inicial do Solo Mangás 2.8 com o tema Call of Duty" width="900">
 
 </div>
 
@@ -29,19 +29,25 @@ A versão pronta fica na página de **[Releases](releases/latest)**.
 
 | Edição | Arquivo | Tamanho | Requisito |
 |---|---|---|---|
-| Windows x64 | `Solo-Mangas-2.7.0.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
+| Windows x64 | `Solo-Mangas-2.8.0.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
 
 > O executável é autocontido: não precisa de .NET, WebView2 nem runtime adicional.
 
 **Verificar o hash (PowerShell):**
 
 ```powershell
-Get-FileHash .\Solo-Mangas-2.7.0.exe -Algorithm SHA256
+Get-FileHash .\Solo-Mangas-2.8.0.exe -Algorithm SHA256
 ```
 
-O hash publicado na release é `96E3D55523CFBE59505DA304C68C0761349728A22028A1DF5ED29F1A3EC5372B`.
+O hash publicado na release é `73989E8557892A8834F2F410B92E359FB386745052B8B46DCC0B6B4C90D03647`.
 
 ## Recursos
+
+### Aparência
+- Dois temas: **Call of Duty** (padrão da 2.8) e **Sangue & aço** (visual clássico).
+- O tema Call of Duty usa uma foto real de fundo (UK MOD, OGL v1.0), paleta de
+  carvão/oliva com dourado, tipografia Bahnschrift e painéis translúcidos.
+- Troca em **Configurações → Aparência**; o app reinicia para aplicar.
 
 ### Catálogo e busca
 - Seis fontes em português: **Mangeek**, **Manhastro**, **Ler Mangá**, **MangaDex**, **MangaFlix** e **MangaLivre**.
@@ -61,10 +67,12 @@ O hash publicado na release é `96E3D55523CFBE59505DA304C68C0761349728A22028A1DF
 ### Biblioteca
 - Favoritos, histórico e posição de leitura por obra.
 - Continuação de onde parou, inclusive entre capítulos.
-- Backup dos dados em JSON.
+- Backup dos dados em JSON e restauração pelo próprio app (**Importar backup**),
+  com mescla de favoritos, histórico, lidos, posições e pesquisas.
+- Ordem inicial dos capítulos configurável (último → 1º ou 1º → último).
 - Modo +18 global com fontes adultas separadas.
 
-### Desempenho (2.7)
+### Desempenho
 - Cada capa é baixada **uma única vez** e reaproveitada no destaque, nos cards, em favoritos e no "Continuar lendo".
 - Imagens carregam só quando entram na tela, com cache em disco de até **1,2 GB** e limpeza automática dos arquivos mais antigos.
 - Cache de capas em memória com limite de pixels e LRU.
@@ -121,7 +129,7 @@ Detalhes de cada adaptador em **[docs/fontes.md](docs/fontes.md)**.
 | `%APPDATA%\MangeekPC\session.json` | Sessão da conta Mangeek (preservada das versões anteriores) |
 | `%LOCALAPPDATA%\SoloMangas\cache\img` | Cache de capas e páginas (até 1,2 GB) |
 
-A pasta de dados pode ser aberta em **Configurações → Pasta de dados**. O backup em JSON fica em **Configurações → Backup dos dados**.
+A pasta de dados pode ser aberta em **Configurações → Pasta de dados**. O backup em JSON fica em **Configurações → Backup dos dados**, e a restauração em **Configurações → Restaurar backup**.
 
 ## Atualizações integradas
 

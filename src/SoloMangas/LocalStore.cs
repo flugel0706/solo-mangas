@@ -61,6 +61,8 @@ namespace SoloMangasNative
         public int ReaderWidth { get; set; }
         /// <summary>Modo do leitor: "webtoon" (rolagem continua) ou "page" (pagina a pagina).</summary>
         public string ReaderMode { get; set; } = "webtoon";
+        /// <summary>Ordem inicial dos capitulos na pagina da obra: true = ultimo primeiro.</summary>
+        public bool ChapterOrderDesc { get; set; } = true;
         // Ultima geometria da janela (0 = usar o padrao).
         public double WindowW { get; set; }
         public double WindowH { get; set; }
@@ -72,6 +74,20 @@ namespace SoloMangasNative
         public string UpdateSource { get; set; } = string.Empty;
         /// <summary>Verifica se ha versao nova ao abrir o app, sem atrapalhar a abertura.</summary>
         public bool CheckUpdatesOnStartup { get; set; } = true;
+        /// <summary>Tema visual: "cod" (Call of Duty, padrao da 2.8) ou "sangue" (visual classico).</summary>
+        public string Theme { get; set; } = "cod";
+    }
+
+    /// <summary>Resumo do que foi importado de um backup.</summary>
+    public sealed class ImportResult
+    {
+        public int Favorites { get; set; }
+        public int History { get; set; }
+        public int Read { get; set; }
+        public int Positions { get; set; }
+        public int Searches { get; set; }
+        public int Skipped { get; set; }
+        public int Total => Favorites + History + Read + Positions + Searches;
     }
 
     /// <summary>Estado local: favoritos, historico, lidos, posicoes e configuracoes.</summary>
@@ -357,6 +373,214 @@ namespace SoloMangasNative
                 SaveSoon();
             }
         }
+
+        // ---------------- Backup ----------------
+        /// <summary>
+        /// Restaura favoritos, historico, lidos, posicoes e pesquisas de um
+        /// store.json exportado. Faz mescla: nada do estado atual e apagado e
+        /// entradas repetidas sao mantidas uma unica vez.
+        /// </summary>
+        public ImportResult ImportBackup(string path)
+        {
+            var json = File.ReadAllText(path);
+            JsonDocument doc;
+            try
+            {
+                doc = JsonDocument.Parse(json, new JsonDocumentOptions
+                {
+                    AllowTrailingCommas = true,
+                    CommentHandling = JsonCommentHandling.Skip,
+                });
+            }
+            catch (JsonException)
+            {
+                throw new Exception("O arquivo selecionado nao e um JSON valido.");
+            }
+
+            using (doc)
+            {
+                var root = doc.RootElement;
+                if (root.ValueKind != JsonValueKind.Object)
+                    throw new Exception("O arquivo selecionado nao parece ser um backup do Solo Mangas.");
+
+                var result = new ImportResult();
+                lock (_gate)
+                {
+                    // -------- favoritos --------
+                    if (root.TryGetProperty("Favorites", out var favs) && favs.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var el in favs.EnumerateArray())
+                        {
+                            var source = Text(el, "Source");
+                            var id = Text(el, "Id");
+                            if (string.IsNullOrWhiteSpace(source) || string.IsNullOrWhiteSpace(id))
+                            {
+                                result.Skipped++;
+                                continue;
+                            }
+                            var exists = _state.Favorites.Any(f =>
+                                f.Source.Equals(source, StringComparison.OrdinalIgnoreCase) && f.Id == id);
+                            if (exists)
+                            {
+                                result.Skipped++;
+                                continue;
+                            }
+                            _state.Favorites.Add(new FavEntry
+                            {
+                                Source = source,
+                                Id = id,
+                                Title = Text(el, "Title"),
+                                Cover = Text(el, "Cover"),
+                                Url = Text(el, "Url"),
+                                Adult = Bool(el, "Adult"),
+                                Added = Date(el, "Added") ?? DateTime.Now,
+                            });
+                            result.Favorites++;
+                        }
+                    }
+
+                    // -------- historico --------
+                    if (root.TryGetProperty("History", out var hist) && hist.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var el in hist.EnumerateArray())
+                        {
+                            var source = Text(el, "Source");
+                            var mangaId = Text(el, "MangaId");
+                            if (string.IsNullOrWhiteSpace(source) || string.IsNullOrWhiteSpace(mangaId))
+                            {
+                                result.Skipped++;
+                                continue;
+                            }
+
+                            var when = Date(el, "Updated") ?? DateTime.Now;
+                            var existing = _state.History.FirstOrDefault(h =>
+                                h.Source.Equals(source, StringComparison.OrdinalIgnoreCase) && h.MangaId == mangaId);
+                            if (existing == null)
+                            {
+                                _state.History.Add(new HistoryEntry
+                                {
+                                    Source = source,
+                                    MangaId = mangaId,
+                                    MangaTitle = Text(el, "MangaTitle"),
+                                    Cover = Text(el, "Cover"),
+                                    ChapterId = Text(el, "ChapterId"),
+                                    ChapterTitle = Text(el, "ChapterTitle"),
+                                    Adult = Bool(el, "Adult"),
+                                    Position = Clamp01(Number(el, "Position")),
+                                    Updated = when,
+                                });
+                                result.History++;
+                                continue;
+                            }
+
+                            // Mantem o capitulo mais recente entre o atual e o backup.
+                            if (when <= existing.Updated)
+                            {
+                                result.Skipped++;
+                                continue;
+                            }
+                            existing.ChapterId = Text(el, "ChapterId");
+                            existing.ChapterTitle = Text(el, "ChapterTitle");
+                            existing.Position = Clamp01(Number(el, "Position"));
+                            existing.Updated = when;
+                            if (!string.IsNullOrWhiteSpace(Text(el, "MangaTitle"))) existing.MangaTitle = Text(el, "MangaTitle");
+                            if (!string.IsNullOrWhiteSpace(Text(el, "Cover"))) existing.Cover = Text(el, "Cover");
+                            result.History++;
+                        }
+                    }
+
+                    // -------- capitulos lidos --------
+                    if (root.TryGetProperty("Read", out var read) && read.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var el in read.EnumerateArray())
+                        {
+                            if (el.ValueKind != JsonValueKind.String) continue;
+                            var key = el.GetString();
+                            if (string.IsNullOrWhiteSpace(key) || !key.Contains(':')) continue;
+                            if (!_readSet.Add(key))
+                            {
+                                result.Skipped++;
+                                continue;
+                            }
+                            _state.Read.Add(key);
+                            result.Read++;
+                        }
+                        if (_state.Read.Count > 5000)
+                        {
+                            var drop = _state.Read.Take(1000).ToList();
+                            _state.Read.RemoveRange(0, 1000);
+                            foreach (var d in drop) _readSet.Remove(d);
+                        }
+                    }
+
+                    // -------- posicoes --------
+                    if (root.TryGetProperty("Positions", out var pos) && pos.ValueKind == JsonValueKind.Object)
+                    {
+                        foreach (var p in pos.EnumerateObject())
+                        {
+                            if (!p.Value.TryGetDouble(out var v)) continue;
+                            _state.Positions[p.Name] = Clamp01(v);
+                            result.Positions++;
+                        }
+                    }
+
+                    // -------- pesquisas recentes --------
+                    if (root.TryGetProperty("Searches", out var searches) && searches.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var el in searches.EnumerateArray())
+                        {
+                            var source = Text(el, "Source");
+                            var query = Text(el, "Query");
+                            if (string.IsNullOrWhiteSpace(source) || string.IsNullOrWhiteSpace(query))
+                            {
+                                result.Skipped++;
+                                continue;
+                            }
+                            var exists = _state.Searches.Any(s =>
+                                s.Source.Equals(source, StringComparison.OrdinalIgnoreCase) &&
+                                s.Query.Equals(query, StringComparison.OrdinalIgnoreCase));
+                            if (exists)
+                            {
+                                result.Skipped++;
+                                continue;
+                            }
+                            _state.Searches.Add(new SearchEntry
+                            {
+                                Source = source,
+                                Query = query,
+                                Used = Date(el, "Used") ?? DateTime.Now,
+                            });
+                            result.Searches++;
+                        }
+                        if (_state.Searches.Count > 200)
+                            _state.Searches = _state.Searches.OrderByDescending(s => s.Used).Take(150).ToList();
+                    }
+
+                    Save();
+                }
+                return result;
+            }
+        }
+
+        private static string Text(JsonElement el, string name) =>
+            el.ValueKind == JsonValueKind.Object && el.TryGetProperty(name, out var v) &&
+            v.ValueKind == JsonValueKind.String ? v.GetString() : string.Empty;
+
+        private static bool Bool(JsonElement el, string name) =>
+            el.ValueKind == JsonValueKind.Object && el.TryGetProperty(name, out var v) &&
+            (v.ValueKind == JsonValueKind.True || v.ValueKind == JsonValueKind.False) && v.GetBoolean();
+
+        private static double Number(JsonElement el, string name) =>
+            el.ValueKind == JsonValueKind.Object && el.TryGetProperty(name, out var v) &&
+            v.ValueKind == JsonValueKind.Number && v.TryGetDouble(out var d) ? d : 0;
+
+        private static DateTime? Date(JsonElement el, string name)
+        {
+            var text = Text(el, name);
+            return DateTime.TryParse(text, out var d) ? d : null;
+        }
+
+        private static double Clamp01(double value) => Math.Max(0, Math.Min(1, value));
 
         // ---------------- Posicoes ----------------
         public double GetPosition(string source, string chapterId)

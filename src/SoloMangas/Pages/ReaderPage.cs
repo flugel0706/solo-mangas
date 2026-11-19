@@ -113,7 +113,7 @@ namespace SoloMangasNative
             _bar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             var barBg = new Border
             {
-                Background = new SolidColorBrush(Color.FromArgb(0xF5, 0x16, 0x0A, 0x0E)),
+                Background = Theme.Header,
                 BorderBrush = Theme.Line,
                 BorderThickness = new Thickness(0, 0, 0, 1),
             };

@@ -52,6 +52,7 @@ namespace SoloMangasNative
             _id = id;
             _adultHint = adult;
             _openChapterId = openChapterId;
+            _descOrder = LocalStore.Instance.Settings.ChapterOrderDesc;
 
             _root = new StackPanel { Margin = new Thickness(34, 18, 34, 46) };
 
@@ -82,9 +83,7 @@ namespace SoloMangasNative
             var coverGrid = new Grid();
             coverGrid.Children.Add(new Border
             {
-                Background = new LinearGradientBrush(
-                    Color.FromRgb(0x2A, 0x11, 0x18), Color.FromRgb(0x11, 0x07, 0x0A),
-                    new Point(0, 0), new Point(0, 1)),
+                Background = Theme.GradPanel,
             });
             // Letra grande enquanto a capa não chega (ou quando a fonte está fora).
             _coverLetter = new TextBlock
@@ -93,7 +92,7 @@ namespace SoloMangasNative
                 FontSize = 96,
                 FontWeight = FontWeights.Bold,
                 FontFamily = Theme.Display,
-                Foreground = new SolidColorBrush(Color.FromArgb(0x30, 0xFF, 0x3D, 0x5A)),
+                Foreground = Theme.AccentSoft,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 IsHitTestVisible = false,

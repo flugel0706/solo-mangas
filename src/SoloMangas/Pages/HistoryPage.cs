@@ -151,7 +151,7 @@ namespace SoloMangasNative
                 FontSize = 26,
                 FontWeight = FontWeights.Bold,
                 FontFamily = Theme.Display,
-                Foreground = new SolidColorBrush(Color.FromArgb(0x38, 0xFF, 0x3D, 0x5A)),
+                Foreground = Theme.AccentSoft,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 IsHitTestVisible = false,

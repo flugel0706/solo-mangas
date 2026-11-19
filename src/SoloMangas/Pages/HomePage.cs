@@ -50,7 +50,7 @@ namespace SoloMangasNative
             // ---------------- Cabeçalho fixo ----------------
             var header = new Border
             {
-                Background = new SolidColorBrush(Color.FromArgb(0xF7, 0x06, 0x03, 0x05)),
+                Background = Theme.Header,
                 BorderBrush = Theme.Line,
                 BorderThickness = new Thickness(0, 0, 0, 1),
                 Padding = new Thickness(34, 14, 34, 12),
@@ -506,11 +506,11 @@ namespace SoloMangasNative
                     EndPoint = new Point(1, 0),
                     GradientStops =
                     {
-                        new GradientStop(Color.FromArgb(0xFB, 0x0A, 0x05, 0x08), 0),
-                        new GradientStop(Color.FromArgb(0xEE, 0x0A, 0x05, 0x08), 0.38),
-                        new GradientStop(Color.FromArgb(0x99, 0x0A, 0x05, 0x08), 0.62),
-                        new GradientStop(Color.FromArgb(0x22, 0x0A, 0x05, 0x08), 0.86),
-                        new GradientStop(Color.FromArgb(0x00, 0x0A, 0x05, 0x08), 1),
+                        new GradientStop(Theme.Shade(0xFB), 0),
+                        new GradientStop(Theme.Shade(0xEE), 0.38),
+                        new GradientStop(Theme.Shade(0x99), 0.62),
+                        new GradientStop(Theme.Shade(0x22), 0.86),
+                        new GradientStop(Theme.Shade(0x00), 1),
                     },
                 },
                 IsHitTestVisible = false,
@@ -525,8 +525,8 @@ namespace SoloMangasNative
                     EndPoint = new Point(0, 1),
                     GradientStops =
                     {
-                        new GradientStop(Color.FromArgb(0x00, 0x06, 0x03, 0x05), 0),
-                        new GradientStop(Color.FromArgb(0xAA, 0x06, 0x03, 0x05), 1),
+                        new GradientStop(Theme.Shade(0x00), 0),
+                        new GradientStop(Theme.Shade(0xAA), 1),
                     },
                 },
                 IsHitTestVisible = false,
@@ -593,7 +593,7 @@ namespace SoloMangasNative
                 {
                     Text = desc,
                     FontSize = 13,
-                    Foreground = new SolidColorBrush(Color.FromRgb(0xD6, 0xC4, 0xC9)),
+                    Foreground = Theme.Muted,
                     TextWrapping = TextWrapping.Wrap,
                     LineHeight = 20,
                     MaxHeight = 60,

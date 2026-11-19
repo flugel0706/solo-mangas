@@ -1,7 +1,7 @@
 {
-  "version": "2.7.0",
-  "url": "https://github.com/flugel0706/solo-mangas/releases/download/v2.7.0/Solo-Mangas-2.7.0.exe",
-  "sha256": "96E3D55523CFBE59505DA304C68C0761349728A22028A1DF5ED29F1A3EC5372B",
-  "size": 82928547,
-  "notes": "2.7 — capas, busca e telas mais rápidas\n\n• Cada capa é baixada uma única vez e reaproveitada no destaque, nos cards, em favoritos e no Continuar lendo\n• Imagens carregam só quando entram na tela, com cache em disco de até 1,2 GB e limpeza automática\n• A busca global mostra cada fonte assim que ela responde, com cache de resultados por 2,5 minutos\n• Tela inicial com cabeçalho fixo, busca, botão Atualizar, contador de obras e esqueletos de carregamento\n• Cantos arredondados reais nas capas e letra de reserva quando a fonte não devolve a imagem\n• Favoritos, histórico e progresso de leitura continuam intactos"
+  "version": "2.8.0",
+  "url": "https://github.com/flugel0706/solo-mangas/releases/download/v2.8.0/Solo-Mangas-2.8.0.exe",
+  "sha256": "73989E8557892A8834F2F410B92E359FB386745052B8B46DCC0B6B4C90D03647",
+  "size": 83050450,
+  "notes": "2.8 — tema Call of Duty, backup restaurável e ordem de capítulos\n\n• Tema Call of Duty com foto real de fundo, paleta carvão/oliva, dourado e tipografia Bahnschrift\n• Seletor em Configurações → Aparência alterna entre Call of Duty e Sangue & aço, com reinício automático\n• Importar backup mescla favoritos, histórico, capítulos lidos, posições e pesquisas sem apagar nada\n• Ordem inicial dos capítulos configurável: último → 1º ou 1º → último\n• Cabeçalhos, leitor e barras de rolagem seguem a cor do tema\n• Versão 2.8.0 exibida dinamicamente; store.json da 2.7 continua compatível"
 }

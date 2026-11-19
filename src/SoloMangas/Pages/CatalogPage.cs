@@ -90,7 +90,7 @@ namespace SoloMangasNative
             // ---------------- Cabeçalho fixo ----------------
             var header = new Border
             {
-                Background = new SolidColorBrush(Color.FromArgb(0xF7, 0x06, 0x03, 0x05)),
+                Background = Theme.Header,
                 BorderBrush = Theme.Line,
                 BorderThickness = new Thickness(0, 0, 0, 1),
                 Padding = new Thickness(34, 14, 34, 14),

@@ -47,7 +47,7 @@ O script:
 
 1. roda `dotnet publish` em Release/win-x64;
 2. confere que `SoloMangas.exe` existe e tem tamanho plausível;
-3. lê `FileVersion` e falha se não for `2.7.0.0`;
+3. lê `FileVersion` e falha se não for `2.8.0.0`;
 4. grava `dist\SHA256SUMS.txt`.
 
 ## Versão
@@ -55,9 +55,9 @@ O script:
 A versão fica em `src/SoloMangas/SoloMangas.csproj`:
 
 ```xml
-<Version>2.7.0</Version>
-<AssemblyVersion>2.7.0.0</AssemblyVersion>
-<FileVersion>2.7.0.0</FileVersion>
+<Version>2.8.0</Version>
+<AssemblyVersion>2.8.0.0</AssemblyVersion>
+<FileVersion>2.8.0.0</FileVersion>
 ```
 
 `UpdateService.CurrentVersion` lê a versão do assembly; `FileVersion` é o que
@@ -81,7 +81,7 @@ O app não tem suíte de testes automatizados. A validação de uma mudança é:
 - [ ] `dotnet build -c Release` sem erros.
 - [ ] `dotnet publish` gera `SoloMangas.exe` único.
 - [ ] `FileVersion` correta.
-- [ ] janela abre com o título `Solo Mangás 2.7`.
+- [ ] janela abre com o título `Solo Mangás 2.8.0`.
 - [ ] catálogo, busca, obra, leitor e capítulos funcionam na fonte alterada.
 - [ ] favoritos, histórico e posição de leitura persistem após fechar e abrir.
 - [ ] modo +18 liga/desliga as fontes adultas.
@@ -95,7 +95,7 @@ Roda em todo push/PR:
 
 1. `dotnet restore` e `dotnet build -c Release`.
 2. `dotnet publish` single-file autocontido.
-3. Confere `FileVersion` (`2.7.0.0`) e tamanho do executável.
+3. Confere `FileVersion` (`2.8.0.0`) e tamanho do executável.
 4. Sobe `SoloMangas.exe` como artefato do workflow.
 
 ### `release.yml`
@@ -111,8 +111,8 @@ Disparado por tags `v*`:
 Para lançar uma versão:
 
 ```powershell
-git tag v2.7.0
-git push origin v2.7.0
+git tag v2.8.0
+git push origin v2.8.0
 ```
 
 ## Publicação manual no GitHub

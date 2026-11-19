@@ -24,17 +24,17 @@ há internet/manifesto e pode ser desligada em **Configurações → Atualizaç�
 
 ```json
 {
-  "version": "2.7.0",
-  "url": "Solo-Mangas-2.7.0.exe",
-  "sha256": "96E3D55523CFBE59505DA304C68C0761349728A22028A1DF5ED29F1A3EC5372B",
-  "size": 82928547,
-  "notes": "2.7 — capas, busca e telas mais rápidas\n\n• ..."
+  "version": "2.8.0",
+  "url": "Solo-Mangas-2.8.0.exe",
+  "sha256": "73989E8557892A8834F2F410B92E359FB386745052B8B46DCC0B6B4C90D03647",
+  "size": 83050450,
+  "notes": "2.8 — tema Call of Duty, backup restaurável e ordem de capítulos\n\n• ..."
 }
 ```
 
 | Campo | Obrigatório | Conteúdo |
 |---|---|---|
-| `version` | sim | Versão nova, ex.: `2.7.0` (aceita `v2.7.0`). Comparada por número. |
+| `version` | sim | Versão nova, ex.: `2.8.0` (aceita `v2.8.0`). Comparada por número. |
 | `url` | sim | Nome do exe ao lado do manifesto, caminho absoluto ou URL http(s). |
 | `sha256` | recomendado | Hash do exe. Se presente, o download só é aceito se bater. |
 | `size` | opcional | Tamanho em bytes; usado como referência de progresso. |

@@ -1,0 +1,8 @@
+2.8 — tema Call of Duty, backup restaurável e ordem de capítulos
+
+• Tema Call of Duty com foto real de fundo, paleta carvão/oliva, dourado e tipografia Bahnschrift
+• Seletor em Configurações > Aparência alterna entre Call of Duty e Sangue & aço, com reinício automático
+• Importar backup mescla favoritos, histórico, capítulos lidos, posições e pesquisas sem apagar nada
+• Ordem inicial dos capítulos configurável: último primeiro ou 1º primeiro
+• Cabeçalhos, leitor e barras seguem a cor do tema, sem vermelho fixo no modo Call of Duty
+• Versão 2.8.0 exibida dinamicamente; store.json da 2.7 continua compatível

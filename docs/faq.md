@@ -52,8 +52,16 @@ capítulos novos e imagens novas precisam de internet.
 Não. O app é WPF, Windows x64.
 
 **Como faço backup?**
-**Configurações → Backup dos dados** exporta o `store.json`. Para restaurar,
-feche o app e copie o arquivo de volta para `%APPDATA%\SoloMangas\store.json`.
+**Configurações → Backup dos dados** exporta o `store.json`. Para restaurar, use
+**Configurações → Restaurar backup**: o app importa favoritos, histórico,
+capítulos lidos, posições e pesquisas e mescla com o que já existe, sem apagar
+nem duplicar. Também dá para fechar o app e copiar o JSON de volta para
+`%APPDATA%\SoloMangas\store.json`.
+
+**Como troco o tema?**
+Em **Configurações → Aparência**, o botão do tema alterna entre **Call of Duty**
+e **Sangue & aço**. O app pergunta se pode reiniciar; confirme para aplicar na
+hora. A escolha fica salva para as próximas aberturas.
 
 **Uma fonte parou de funcionar. O que fazer?**
 A fonte pode estar fora do ar ou ter mudado o layout. Teste outra fonte e ative

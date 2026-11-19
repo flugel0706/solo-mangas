@@ -9,9 +9,9 @@
     <AssemblyName>SoloMangas</AssemblyName>
     <RootNamespace>SoloMangasNative</RootNamespace>
     <StartupObject>SoloMangasNative.Program</StartupObject>
-    <Version>2.7.0</Version>
-    <AssemblyVersion>2.7.0.0</AssemblyVersion>
-    <FileVersion>2.7.0.0</FileVersion>
+    <Version>2.8.0</Version>
+    <AssemblyVersion>2.8.0.0</AssemblyVersion>
+    <FileVersion>2.8.0.0</FileVersion>
     <Product>Solo Mangás</Product>
     <AssemblyTitle>Solo Mangás</AssemblyTitle>
     <Description>Leitor nativo de mangás, manhwas e manhuas</Description>
@@ -34,6 +34,11 @@
     <Compile Include="..\Shared\MangeekApi.cs" Link="Shared\MangeekApi.cs" />
     <Compile Include="..\Shared\ManhastroApi.cs" Link="Shared\ManhastroApi.cs" />
     <Compile Include="..\Shared\LerMangaApi.cs" Link="Shared\LerMangaApi.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\cod-theme.jpg" />
+    <None Include="Assets\ATTRIBUTION.md" />
   </ItemGroup>
 
   <ItemGroup>

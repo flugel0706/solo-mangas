@@ -28,12 +28,14 @@ namespace SoloMangasNative
             app.DispatcherUnhandledException += (_, e) =>
             {
                 MessageBox.Show("Ocorreu um erro inesperado:\n\n" + e.Exception.Message,
-                    "Solo Mangás 2.7", MessageBoxButton.OK, MessageBoxImage.Error);
+                    "Solo Mangás 2.8", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             };
 
-            Theme.Init(app);
+            // O tema e escolhido nas configuracoes e precisa estar carregado
+            // antes de criar pinceis, estilos e a janela principal.
             LocalStore.Instance.Load();
+            Theme.Init(app);
             SourceRegistry.Instance.Session.Load();
 
             var window = new MainWindow();

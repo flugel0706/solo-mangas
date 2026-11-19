@@ -69,7 +69,7 @@ namespace SoloMangasNative
             root.Children.Add(Theme.H1("Configurações"));
             root.Children.Add(new TextBlock
             {
-                Text = "Preferências locais do Solo Mangás 2.7",
+                Text = "Preferências locais do Solo Mangás 2.8",
                 FontSize = 13,
                 Foreground = Theme.Muted,
                 Margin = new Thickness(2, 2, 0, 0),
@@ -80,6 +80,50 @@ namespace SoloMangasNative
                 Margin = new Thickness(0, 16, 0, 0),
                 Background = new LinearGradientBrush(Theme.AccentColor, Colors.Transparent, new Point(0, 0), new Point(1, 0)),
             });
+
+            root.Children.Add(Ui.Section("Aparência"));
+
+            var themeRow = new Row("Tema",
+                "Sangue & aço é o visual clássico. Call of Duty usa uma foto real de fundo, " +
+                "tons de oliva e dourado. O tema novo é aplicado ao reiniciar o app.");
+            var swatches = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 10, 0),
+            };
+            foreach (var c in new[] { Theme.AccentColor, Theme.Accent2Color, Theme.Panel2Color })
+            {
+                swatches.Children.Add(new Border
+                {
+                    Width = 14,
+                    Height = 14,
+                    CornerRadius = new CornerRadius(4),
+                    Background = new SolidColorBrush(c),
+                    BorderBrush = Theme.Line,
+                    BorderThickness = new Thickness(1),
+                    Margin = new Thickness(0, 0, 4, 0),
+                });
+            }
+            themeRow.Actions.Children.Add(swatches);
+            var themeBtn = Theme.Btn(Theme.Name, "SoftButton");
+            System.Windows.Automation.AutomationProperties.SetAutomationId(themeBtn, "theme-switch");
+            themeBtn.Click += (_, _) =>
+            {
+                var s = LocalStore.Instance.Settings;
+                var next = string.Equals(s.Theme, Theme.Cod, StringComparison.OrdinalIgnoreCase) ? Theme.Sangue : Theme.Cod;
+                s.Theme = next;
+                LocalStore.Instance.Save();
+                themeBtn.Content = next == Theme.Cod ? "Call of Duty" : "Sangue & aço";
+
+                var answer = MessageBox.Show(
+                    "Tema alterado para \"" + (next == Theme.Cod ? "Call of Duty" : "Sangue && aço") + "\".\n\n" +
+                    "Reiniciar o Solo Mangás agora para aplicar?",
+                    "Solo Mangás 2.8", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (answer == MessageBoxResult.Yes) RestartApp();
+            };
+            themeRow.Actions.Children.Add(themeBtn);
+            root.Children.Add(themeRow.Box);
 
             root.Children.Add(Ui.Section("Catálogo"));
 
@@ -157,6 +201,20 @@ namespace SoloMangasNative
             };
             modeRow.Actions.Children.Add(modeBtn);
             root.Children.Add(modeRow.Box);
+
+            var chapterOrderRow = new Row("Ordem dos capítulos",
+                "Como a lista abre na página da obra. O botão de ordem dentro da obra continua alternando na hora.");
+            var chapterOrderBtn = Theme.Btn(ChapterOrderLabel(), "GhostButton");
+            System.Windows.Automation.AutomationProperties.SetAutomationId(chapterOrderBtn, "chapter-order");
+            chapterOrderBtn.Click += (_, _) =>
+            {
+                var s = LocalStore.Instance.Settings;
+                s.ChapterOrderDesc = !s.ChapterOrderDesc;
+                LocalStore.Instance.Save();
+                chapterOrderBtn.Content = ChapterOrderLabel();
+            };
+            chapterOrderRow.Actions.Children.Add(chapterOrderBtn);
+            root.Children.Add(chapterOrderRow.Box);
 
             root.Children.Add(Ui.Section("Dados"));
 
@@ -239,6 +297,37 @@ namespace SoloMangasNative
             favRow.Actions.Children.Add(clearFav);
             root.Children.Add(favRow.Box);
 
+            var importRow = new Row("Restaurar backup",
+                "Importa favoritos, histórico, capítulos lidos, posições e pesquisas de um " +
+                "arquivo exportado. O que já existe é mantido, sem duplicar.");
+            var import = Theme.Btn("Importar backup", "GhostButton");
+            import.Click += (_, _) =>
+            {
+                var dlg = new OpenFileDialog
+                {
+                    Title = "Escolher backup do Solo Mangás",
+                    Filter = "Backup JSON (*.json)|*.json|Todos os arquivos (*.*)|*.*",
+                    DefaultExt = ".json",
+                    CheckFileExists = true,
+                };
+                if (dlg.ShowDialog() != true) return;
+                try
+                {
+                    var result = LocalStore.Instance.ImportBackup(dlg.FileName);
+                    historyRow.Subtitle.Text = LocalStore.Instance.History.Count + " obra(s) no histórico.";
+                    favRow.Subtitle.Text = LocalStore.Instance.Favorites.Count + " obra(s) salva(s).";
+                    _host.Toast("Backup importado: " + result.Favorites + " favorito(s), " +
+                        result.History + " no histórico, " + result.Read + " lido(s), " +
+                        result.Positions + " posição(ões).", false);
+                }
+                catch (Exception ex)
+                {
+                    _host.Toast("Falha ao importar: " + ex.Message, true);
+                }
+            };
+            importRow.Actions.Children.Add(import);
+            root.Children.Add(importRow.Box);
+
             root.Children.Add(Ui.Section("Atualizações"));
 
             var versionRow = new Row("Versão instalada",
@@ -294,20 +383,20 @@ namespace SoloMangasNative
             root.Children.Add(Ui.Section("Sobre"));
             root.Children.Add(new TextBlock
             {
-                Text = "Solo Mangás 2.7 — aplicativo nativo em C# / WPF (.NET 8).\n" +
+                Text = "Solo Mangás 2.8 — aplicativo nativo em C# / WPF (.NET 8).\n" +
                        "Sem WebView2: telas, leitor, histórico e favoritos construídos em WPF.\n" +
+                       "Temas: Sangue & aço (visual clássico) e Call of Duty (fundo real, oliva e dourado), " +
+                       "trocáveis em Configurações > Aparência.\n" +
+                       "Novidades da 2.8: tema Call of Duty com papel de parede real, restauração de backup " +
+                       "pelo próprio app, capítulos com ordem por tela e ajustes de legibilidade no leitor.\n" +
                        "Fontes: Mangeek, Manhastro, Ler Mangá, MangaDex, MangaFlix e MangaLivre. " +
                        "Com o modo +18 ligado entram Hanami Heaven, HQ Brasa, Melhor Hentai e MangaDex +18, " +
                        "todas em português. A busca global consulta todas as fontes visíveis e agrupa títulos repetidos.\n" +
-                       "Novidades da 2.7: cada capa é baixada uma única vez e reaproveitada em todos os tamanhos, " +
-                       "as imagens carregam só quando aparecem na tela e a busca global mostra cada fonte assim que ela responde, " +
-                       "com cache de resultados por 2,5 minutos. A tela inicial ganhou cabeçalho fixo, destaque mais leve e " +
-                       "esqueletos de carregamento.\n" +
+                       "Da 2.7: capas em cache, carregamento sob demanda, busca global progressiva e tela inicial repaginada.\n" +
                        "Da 2.6: a página inicial da Mangeek carrega o catálogo completo conforme você rola.\n" +
                        "Da 2.5: verificação de atualizações, download com conferência de SHA-256 " +
-                       "e troca automática do executável — o app fecha, se atualiza e reabre sozinho.\n" +
-                       "Da 2.4: botão +18 global na barra lateral, fontes exclusivamente +18 em português " +
-                       "e capítulos do Ler Mangá carregando pelas URLs originais das páginas.",
+                       "e troca automática do executável — o app fecha, se atualiza e reabre sozinho.\n\n" +
+                       Theme.WallpaperCredit,
                 TextWrapping = TextWrapping.Wrap,
                 Foreground = Theme.Muted,
                 FontSize = 13,
@@ -316,6 +405,32 @@ namespace SoloMangasNative
             });
 
             Content = Ui.Scroll(root);
+        }
+
+        /// <summary>Reabre o aplicativo para aplicar o tema salvo.</summary>
+        private void RestartApp()
+        {
+            try
+            {
+                var exe = UpdateService.TargetExe;
+                if (string.IsNullOrEmpty(exe) || !File.Exists(exe))
+                {
+                    _host.Toast("Feche e abra o app para aplicar o tema.");
+                    return;
+                }
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = exe,
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(exe),
+                });
+                Application.Current.Shutdown();
+            }
+            catch (Exception ex)
+            {
+                _host.Toast("Não foi possível reiniciar: " + ex.Message + ". Abra o app manualmente.", true);
+            }
         }
 
         /// <summary>Modo +18 mudou: atualiza o botão e a lista de fontes visíveis.</summary>
@@ -361,6 +476,9 @@ namespace SoloMangasNative
 
         private static string ReaderModeLabel() =>
             LocalStore.Instance.Settings.ReaderMode == "page" ? "Página a página" : "Webtoon";
+
+        private static string ChapterOrderLabel() =>
+            LocalStore.Instance.Settings.ChapterOrderDesc ? "Último → 1º" : "1º → último";
 
     }
 }

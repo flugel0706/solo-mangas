@@ -194,7 +194,7 @@ try {
 
     $updatePath = Join-Path $dist 'update.json'
     $notesPath = Join-Path $root "docs/releases/$Tag.update.txt"
-    $notes = if (Test-Path $notesPath) { (Get-Content $notesPath -Raw).Trim() } else { "Versão $version" }
+    $notes = if (Test-Path $notesPath) { (Get-Content $notesPath -Raw -Encoding UTF8).Trim() } else { "Versão $version" }
     $manifest = [ordered]@{
         version = $version
         url     = "https://github.com/$login/$RepoName/releases/download/$Tag/$assetName"

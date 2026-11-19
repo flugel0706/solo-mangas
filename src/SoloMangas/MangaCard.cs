@@ -429,8 +429,11 @@ namespace SoloMangasNative
             var scroll = _scroll;
             if (scroll == null || !IsLoaded) return;
 
-            var top = scroll.VerticalOffset;
-            var bottom = top + Math.Max(1, scroll.ViewportHeight);
+            // TransformToAncestor(ScrollViewer) já devolve a posição relativa ao
+            // viewport: 0 é o topo visível e valores negativos estão acima dele.
+            // Comparar com VerticalOffset (coordenada de conteúdo) fazia a grade
+            // liberar capas visíveis e nunca carregar as que entravam ao rolar.
+            var viewport = Math.Max(1, scroll.ViewportHeight);
 
             foreach (var child in Children)
             {
@@ -447,11 +450,11 @@ namespace SoloMangasNative
                 }
 
                 var h = card.ActualHeight > 0 ? card.ActualHeight : 322;
-                if (y + h >= top - 500 && y <= bottom + 700)
+                if (y + h >= -500 && y <= viewport + 700)
                 {
                     card.EnsureCover();
                 }
-                else if (y + h < top - 1500 || y > bottom + 2400)
+                else if (y + h < -1500 || y > viewport + 2400)
                 {
                     card.ReleaseCover();
                 }

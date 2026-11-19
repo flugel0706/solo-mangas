@@ -28,7 +28,7 @@ namespace SoloMangasNative
             app.DispatcherUnhandledException += (_, e) =>
             {
                 MessageBox.Show("Ocorreu um erro inesperado:\n\n" + e.Exception.Message,
-                    "Solo Mangás 2.8", MessageBoxButton.OK, MessageBoxImage.Error);
+                    "Solo Mangás " + UpdateService.CurrentLabel, MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             };
 

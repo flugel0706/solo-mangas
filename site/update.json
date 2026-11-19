@@ -1,7 +1,7 @@
 {
-  "version": "2.8.0",
-  "url": "https://github.com/flugel0706/solo-mangas/releases/download/v2.8.0/Solo-Mangas-2.8.0.exe",
-  "sha256": "73989E8557892A8834F2F410B92E359FB386745052B8B46DCC0B6B4C90D03647",
-  "size": 83050450,
-  "notes": "2.8 — tema Call of Duty, backup restaurável e ordem de capítulos\n\n• Tema Call of Duty com foto real de fundo, paleta carvão/oliva, dourado e tipografia Bahnschrift\n• Seletor em Configurações → Aparência alterna entre Call of Duty e Sangue & aço, com reinício automático\n• Importar backup mescla favoritos, histórico, capítulos lidos, posições e pesquisas sem apagar nada\n• Ordem inicial dos capítulos configurável: último → 1º ou 1º → último\n• Cabeçalhos, leitor e barras de rolagem seguem a cor do tema\n• Versão 2.8.0 exibida dinamicamente; store.json da 2.7 continua compatível"
+    "version":  "2.8.1",
+    "url":  "https://github.com/flugel0706/solo-mangas/releases/download/v2.8.1/Solo-Mangas-2.8.1.exe",
+    "sha256":  "AAED1E4E75F6F66CB797D92A3430BA31CF797F698D9E8A5DA9D2D85183C442E6",
+    "size":  83050522,
+    "notes":  "2.8.1 — capas carregam ao rolar a grade\n\n• Corrige a virtualização de capas: os cards visíveis voltam a carregar a imagem ao rolar para baixo\n• Capas são liberadas só quando muito distantes e recarregam na hora ao voltar\n• Pré-carga acima e abaixo do viewport mantém a rolagem suave\n• Versão exibida em Configurações e no diálogo de erro vem da assembly\n• Favoritos, histórico, posições e store.json intactos"
 }

@@ -4,6 +4,17 @@ Todas as mudanças relevantes do Solo Mangás são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [2.8.1] — 2026-11-19
+
+### Corrigido
+- Capas da grade não carregavam mais ao rolar a página: a virtualização
+  comparava a posição do card relativa ao viewport com o `VerticalOffset` do
+  `ScrollViewer`, então cards visíveis eram tratados como distantes e tinham a
+  capa liberada. Agora a faixa visível é calculada em coordenadas de viewport,
+  com pré-carga acima/abaixo e liberação apenas muito longe da tela.
+- Textos de versão em Configurações e no diálogo de erro passam a usar a
+  versão da assembly, sem "2.8" fixo.
+
 ## [2.8.0] — 2026-11-19
 
 ### Adicionado

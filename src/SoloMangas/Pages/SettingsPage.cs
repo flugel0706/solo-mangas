@@ -69,7 +69,7 @@ namespace SoloMangasNative
             root.Children.Add(Theme.H1("Configurações"));
             root.Children.Add(new TextBlock
             {
-                Text = "Preferências locais do Solo Mangás 2.8",
+                Text = "Preferências locais do Solo Mangás " + UpdateService.CurrentLabel,
                 FontSize = 13,
                 Foreground = Theme.Muted,
                 Margin = new Thickness(2, 2, 0, 0),
@@ -119,7 +119,7 @@ namespace SoloMangasNative
                 var answer = MessageBox.Show(
                     "Tema alterado para \"" + (next == Theme.Cod ? "Call of Duty" : "Sangue && aço") + "\".\n\n" +
                     "Reiniciar o Solo Mangás agora para aplicar?",
-                    "Solo Mangás 2.8", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    "Solo Mangás " + UpdateService.CurrentLabel, MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (answer == MessageBoxResult.Yes) RestartApp();
             };
             themeRow.Actions.Children.Add(themeBtn);
@@ -383,11 +383,13 @@ namespace SoloMangasNative
             root.Children.Add(Ui.Section("Sobre"));
             root.Children.Add(new TextBlock
             {
-                Text = "Solo Mangás 2.8 — aplicativo nativo em C# / WPF (.NET 8).\n" +
+                Text = "Solo Mangás " + UpdateService.CurrentLabel + " — aplicativo nativo em C# / WPF (.NET 8).\n" +
                        "Sem WebView2: telas, leitor, histórico e favoritos construídos em WPF.\n" +
                        "Temas: Sangue & aço (visual clássico) e Call of Duty (fundo real, oliva e dourado), " +
                        "trocáveis em Configurações > Aparência.\n" +
-                       "Novidades da 2.8: tema Call of Duty com papel de parede real, restauração de backup " +
+                       "Novidades da 2.8.1: as capas voltam a carregar enquanto a grade rola, sem ficar " +
+                       "presas na letra inicial, e continuam sob demanda para poupar memória.\n" +
+                       "Da 2.8: tema Call of Duty com papel de parede real, restauração de backup " +
                        "pelo próprio app, capítulos com ordem por tela e ajustes de legibilidade no leitor.\n" +
                        "Fontes: Mangeek, Manhastro, Ler Mangá, MangaDex, MangaFlix e MangaLivre. " +
                        "Com o modo +18 ligado entram Hanami Heaven, HQ Brasa, Melhor Hentai e MangaDex +18, " +

@@ -1,0 +1,7 @@
+2.8.1 — capas carregam ao rolar a grade
+
+• Corrige a virtualização de capas: os cards visíveis voltam a carregar a imagem ao rolar para baixo
+• Capas são liberadas só quando muito distantes e recarregam na hora ao voltar
+• Pré-carga acima e abaixo do viewport mantém a rolagem suave
+• Versão exibida em Configurações e no diálogo de erro vem da assembly
+• Favoritos, histórico, posições e store.json intactos

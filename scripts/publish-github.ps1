@@ -166,7 +166,7 @@ try {
     # ---------------------------------------------------------------- release
     $dist = Join-Path $root 'dist'
     $assetName = "Solo-Mangas-$version.exe"
-    $assetPath = Join-Path $dist $assetName
+    $releaseExe = Join-Path $dist $assetName
 
     if ($AssetPath) {
         if (-not (Test-Path -LiteralPath $AssetPath)) {
@@ -178,7 +178,7 @@ try {
             throw "Executável $fileVersion não corresponde à versão $version do csproj."
         }
         Write-Host "==> Usando executável existente: $exe" -ForegroundColor Cyan
-        Copy-Item -LiteralPath $exe -Destination $assetPath -Force
+        Copy-Item -LiteralPath $exe -Destination $releaseExe -Force
     }
     else {
         $exe = Join-Path $dist 'SoloMangas.exe'
@@ -186,11 +186,11 @@ try {
             Write-Host "==> dist ausente; executando build" -ForegroundColor Cyan
             & (Join-Path $PSScriptRoot 'build.ps1')
         }
-        Copy-Item $exe $assetPath -Force
+        Copy-Item $exe $releaseExe -Force
     }
 
-    $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $assetPath).Hash
-    $size = (Get-Item $assetPath).Length
+    $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $releaseExe).Hash
+    $size = (Get-Item $releaseExe).Length
 
     $updatePath = Join-Path $dist 'update.json'
     $notesPath = Join-Path $root "docs/releases/$Tag.update.txt"
@@ -207,7 +207,7 @@ try {
     $sumsPath = Join-Path $dist 'SHA256SUMS.txt'
     "$($hash.ToLowerInvariant())  $assetName" | Set-Content -Path $sumsPath -Encoding ASCII
 
-    $assets = @($assetPath, $sumsPath, $updatePath)
+    $assets = @($releaseExe, $sumsPath, $updatePath)
 
     # Tag
     $tagExists = (git tag --list $Tag) -contains $Tag

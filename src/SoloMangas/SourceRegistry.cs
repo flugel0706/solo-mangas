@@ -26,6 +26,8 @@ namespace SoloMangasNative
             _sources.Add(new MangaDexSource());
             _sources.Add(new MangaFlixSource());
             _sources.Add(new MangaLivreSource());
+            _sources.Add(new MangaReadSource());
+            _sources.Add(new MangaPillSource());
 
             // Fontes exclusivamente +18 (em portugues). Ficam ocultas ate o modo +18 ligar.
             _sources.Add(new HanamiSource());

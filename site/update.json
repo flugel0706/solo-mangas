@@ -1,7 +1,7 @@
 {
-    "version":  "2.8.1",
-    "url":  "https://github.com/flugel0706/solo-mangas/releases/download/v2.8.1/Solo-Mangas-2.8.1.exe",
-    "sha256":  "AAED1E4E75F6F66CB797D92A3430BA31CF797F698D9E8A5DA9D2D85183C442E6",
-    "size":  83050522,
-    "notes":  "2.8.1 — capas carregam ao rolar a grade\n\n• Corrige a virtualização de capas: os cards visíveis voltam a carregar a imagem ao rolar para baixo\n• Capas são liberadas só quando muito distantes e recarregam na hora ao voltar\n• Pré-carga acima e abaixo do viewport mantém a rolagem suave\n• Versão exibida em Configurações e no diálogo de erro vem da assembly\n• Favoritos, histórico, posições e store.json intactos"
+    "version":  "2.9.0",
+    "url":  "https://github.com/flugel0706/solo-mangas/releases/download/v2.9.0/Solo-Mangas-2.9.0.exe",
+    "sha256":  "2AF750B606A2792E82A2315081D7E8480F8523ED08F296E8F2851776DD98B8EB",
+    "size":  83062606,
+    "notes":  "2.9 — duas fontes novas e fontes mais estáveis\n\n• Novas fontes em inglês: MangaRead e Mangapill, com catálogo grande e leitura completa\n• MangaDex espaça as requisições, respeita o Retry-After em 429 e repete até três vezes\n• Catálogo em pt-br vazio é repetido em inglês; obras com menos de três capítulos em português completam a lista com o feed em inglês\n• Configurações → Fontes ganhou Testar em cada fonte (status, tempo e obras) e Testar todas em paralelo\n• Busca global repete a fonte que falhou ou estourou o tempo antes de marcar como sem resposta\n• Favoritos, histórico, posições e store.json das versões anteriores intactos"
 }

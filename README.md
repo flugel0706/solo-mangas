@@ -13,7 +13,7 @@
 
 [Download](#download) · [Recursos](#recursos) · [Fontes](#fontes) · [Atualizações](#atualizações-integradas) · [Compilar](#compilar-do-c%C3%B3digo-fonte) · [FAQ](docs/faq.md)
 
-<img src="site/assets/screenshots/home.png" alt="Tela inicial do Solo Mangás 2.8 com o tema Call of Duty" width="900">
+<img src="site/assets/screenshots/home.png" alt="Tela inicial do Solo Mangás com o tema Call of Duty" width="900">
 
 </div>
 
@@ -29,17 +29,17 @@ A versão pronta fica na página de **[Releases](releases/latest)**.
 
 | Edição | Arquivo | Tamanho | Requisito |
 |---|---|---|---|
-| Windows x64 | `Solo-Mangas-2.8.0.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
+| Windows x64 | `Solo-Mangas-2.9.0.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
 
 > O executável é autocontido: não precisa de .NET, WebView2 nem runtime adicional.
 
 **Verificar o hash (PowerShell):**
 
 ```powershell
-Get-FileHash .\Solo-Mangas-2.8.0.exe -Algorithm SHA256
+Get-FileHash .\Solo-Mangas-2.9.0.exe -Algorithm SHA256
 ```
 
-O hash publicado na release é `73989E8557892A8834F2F410B92E359FB386745052B8B46DCC0B6B4C90D03647`.
+O hash e o tamanho de cada versão ficam na release e no `update.json`.
 
 ## Recursos
 
@@ -50,11 +50,18 @@ O hash publicado na release é `73989E8557892A8834F2F410B92E359FB386745052B8B46D
 - Troca em **Configurações → Aparência**; o app reinicia para aplicar.
 
 ### Catálogo e busca
-- Seis fontes em português: **Mangeek**, **Manhastro**, **Ler Mangá**, **MangaDex**, **MangaFlix** e **MangaLivre**.
+- Oito fontes: **Mangeek**, **Manhastro**, **Ler Mangá**, **MangaDex**, **MangaFlix** e **MangaLivre** em português; **MangaRead** e **Mangapill** em inglês.
 - Quatro fontes exclusivamente +18 liberadas com o modo adulto: **Hanami Heaven**, **HQ Brasa**, **Melhor Hentai** e **MangaDex +18**.
 - Busca global consulta todas as fontes visíveis de uma vez e agrupa títulos repetidos; cada fonte aparece assim que responde.
+- Fonte que falhou ou estourou o tempo é consultada de novo antes de ser marcada como sem resposta.
 - Cache de resultados de busca por 2,5 minutos.
 - Gêneros por fonte, catálogo paginado e destaques na tela inicial.
+
+### Resiliência das fontes
+- **MangaDex** espaça as requisições, respeita o `Retry-After` em 429 e repete até três vezes antes de mostrar erro.
+- Catálogo vazio em pt-br é repetido em inglês; obras com menos de três capítulos em português completam a lista com o feed em inglês, sem repetir números.
+- **Configurações → Fontes** tem *Testar* em cada fonte (status, tempo e obras) e *Testar todas* em paralelo.
+- Mensagens de erro distinguem limite de requisições, serviço instável e falha de TLS/rede.
 
 ### Leitor
 - Rolagem contínua (webtoon) ou página a página.
@@ -95,6 +102,8 @@ O hash publicado na release é `73989E8557892A8834F2F410B92E359FB386745052B8B46D
 | **MangaDex** | API pública (PT-BR) | sim | traduzidos | sim | não |
 | **MangaFlix** | SSR + API pública | sim | 54 categorias | sim | não |
 | **MangaLivre** | WordPress + Slimeread | sim | 9 gêneros | sim | não |
+| **MangaRead** | Madara (EN) | sim | 29 gêneros | sim | não |
+| **Mangapill** | HTML estático (EN) | sim | 46 gêneros | não | não |
 | **Hanami Heaven** | Madara | sim | do site | só +18 | não |
 | **HQ Brasa** | catálogo próprio | sim | do site | só +18 | não |
 | **Melhor Hentai** | WordPress | sim | do site | só +18 | não |

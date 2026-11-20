@@ -9,9 +9,9 @@
     <AssemblyName>SoloMangas</AssemblyName>
     <RootNamespace>SoloMangasNative</RootNamespace>
     <StartupObject>SoloMangasNative.Program</StartupObject>
-    <Version>2.8.1</Version>
-    <AssemblyVersion>2.8.1.0</AssemblyVersion>
-    <FileVersion>2.8.1.0</FileVersion>
+    <Version>2.9.0</Version>
+    <AssemblyVersion>2.9.0.0</AssemblyVersion>
+    <FileVersion>2.9.0.0</FileVersion>
     <Product>Solo Mangás</Product>
     <AssemblyTitle>Solo Mangás</AssemblyTitle>
     <Description>Leitor nativo de mangás, manhwas e manhuas</Description>

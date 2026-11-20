@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,6 +15,7 @@ namespace SoloMangasNative
     {
         private readonly MainWindow _host;
         private readonly StackPanel _sourcesPanel = new StackPanel();
+        private readonly Dictionary<string, Row> _sourceRows = new Dictionary<string, Row>(StringComparer.Ordinal);
         private Button _adultBtn;
 
         /// <summary>Linha de configuracao com titulo, descricao e area de acoes.</summary>
@@ -387,11 +390,15 @@ namespace SoloMangasNative
                        "Sem WebView2: telas, leitor, histórico e favoritos construídos em WPF.\n" +
                        "Temas: Sangue & aço (visual clássico) e Call of Duty (fundo real, oliva e dourado), " +
                        "trocáveis em Configurações > Aparência.\n" +
-                       "Novidades da 2.8.1: as capas voltam a carregar enquanto a grade rola, sem ficar " +
+                       "Novidades da 2.9: duas fontes novas (MangaRead e Mangapill), teste de saúde de cada fonte " +
+                       "em Configurações e busca global que repete a fonte que falhou. A MangaDex agora espaça as " +
+                       "requisições, respeita o Retry-After e completa obras sem capítulos em português com o feed em inglês.\n" +
+                       "Da 2.8.1: as capas voltam a carregar enquanto a grade rola, sem ficar " +
                        "presas na letra inicial, e continuam sob demanda para poupar memória.\n" +
                        "Da 2.8: tema Call of Duty com papel de parede real, restauração de backup " +
                        "pelo próprio app, capítulos com ordem por tela e ajustes de legibilidade no leitor.\n" +
-                       "Fontes: Mangeek, Manhastro, Ler Mangá, MangaDex, MangaFlix e MangaLivre. " +
+                       "Fontes: Mangeek, Manhastro, Ler Mangá, MangaDex, MangaFlix e MangaLivre em português; " +
+                       "MangaRead e Mangapill em inglês. " +
                        "Com o modo +18 ligado entram Hanami Heaven, HQ Brasa, Melhor Hentai e MangaDex +18, " +
                        "todas em português. A busca global consulta todas as fontes visíveis e agrupa títulos repetidos.\n" +
                        "Da 2.7: capas em cache, carregamento sob demanda, busca global progressiva e tela inicial repaginada.\n" +
@@ -453,15 +460,135 @@ namespace SoloMangasNative
         private void BuildSources()
         {
             _sourcesPanel.Children.Clear();
-            foreach (var src in SourceRegistry.Instance.Enabled(LocalStore.Instance.Settings.Adult))
+            _sourceRows.Clear();
+
+            var sources = SourceRegistry.Instance.Enabled(LocalStore.Instance.Settings.Adult).ToList();
+            if (sources.Count == 0) return;
+
+            var head = new DockPanel { LastChildFill = false, Margin = new Thickness(0, 0, 0, 8) };
+            head.Children.Add(new TextBlock
+            {
+                Text = sources.Count + " fontes visíveis · o teste consulta o catálogo de cada uma",
+                FontSize = 11.5,
+                Foreground = Theme.Muted,
+                VerticalAlignment = VerticalAlignment.Center,
+            });
+            var testAll = Theme.Btn("Testar todas", "GhostButton");
+            testAll.HorizontalAlignment = HorizontalAlignment.Right;
+            testAll.ToolTip = "Consulta todas as fontes agora, em paralelo, e mostra status e tempo";
+            testAll.Click += (_, _) => _ = TestAllSourcesAsync(testAll, sources);
+            DockPanel.SetDock(testAll, Dock.Right);
+            head.Children.Add(testAll);
+            _sourcesPanel.Children.Add(head);
+
+            foreach (var src in sources)
             {
                 var s = src;
                 var title = s.AdultOnly ? s.Name + "  ·  +18" : s.Name;
                 var row = new Row(title, s.SupportsLogin ? "Requer login" : s.AdultOnly ? "Somente obras +18" : "Acesso público");
+
+                var test = Theme.Btn("Testar", "GhostButton");
+                test.Margin = new Thickness(0, 0, 8, 0);
+                test.ToolTip = "Consulta o catálogo agora e mostra status e tempo de resposta";
+                test.Click += (_, _) => _ = TestSourceAsync(s, row, test);
+                row.Actions.Children.Add(test);
+
                 var open = Theme.Btn("Abrir", "GhostButton");
                 open.Click += (_, _) => _host.SetSource(s.Key);
                 row.Actions.Children.Add(open);
+
+                _sourceRows[s.Key] = row;
                 _sourcesPanel.Children.Add(row.Box);
+            }
+        }
+
+        /// <summary>
+        /// Teste de saúde de uma fonte: mede a resposta do catálogo (15 s de teto)
+        /// e escreve o resultado na própria linha, sem pop-up.
+        /// </summary>
+        private async Task TestSourceAsync(ISource src, Row row, Button button)
+        {
+            if (button != null) button.IsEnabled = false;
+            if (row != null)
+            {
+                row.Subtitle.Foreground = Theme.Muted;
+                row.Subtitle.Text = "Testando…";
+            }
+
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                var task = src.CatalogAsync(new SourceQuery
+                {
+                    Page = 1,
+                    Limit = 8,
+                    Adult = LocalStore.Instance.Settings.Adult,
+                });
+                var done = await Task.WhenAny(task, Task.Delay(15000));
+                sw.Stop();
+
+                if (done != task)
+                {
+                    if (row != null)
+                    {
+                        row.Subtitle.Foreground = Theme.Accent2;
+                        row.Subtitle.Text = "Sem resposta em 15 s — a fonte pode estar lenta ou bloqueada.";
+                    }
+                    return;
+                }
+
+                var result = await task;
+                var count = result?.Items?.Count ?? 0;
+                var total = result?.Total ?? 0;
+                if (row != null)
+                {
+                    row.Subtitle.Foreground = Theme.Muted;
+                    row.Subtitle.Text = total > 0
+                        ? "OK · " + sw.ElapsedMilliseconds + " ms · " + total + " obras no catálogo"
+                        : "OK · " + sw.ElapsedMilliseconds + " ms · " + count + " obra(s) na primeira página";
+                }
+            }
+            catch (Exception ex)
+            {
+                sw.Stop();
+                if (row != null)
+                {
+                    row.Subtitle.Foreground = Theme.Accent2;
+                    row.Subtitle.Text = "Falha em " + sw.ElapsedMilliseconds + " ms: " + ex.Message;
+                }
+            }
+            finally
+            {
+                if (button != null) button.IsEnabled = true;
+            }
+        }
+
+        private async Task TestAllSourcesAsync(Button button, List<ISource> sources)
+        {
+            if (button != null)
+            {
+                button.IsEnabled = false;
+                button.Content = "Testando…";
+            }
+
+            try
+            {
+                var tasks = new List<Task>();
+                foreach (var s in sources)
+                {
+                    _sourceRows.TryGetValue(s.Key, out var row);
+                    tasks.Add(TestSourceAsync(s, row, null));
+                }
+                await Task.WhenAll(tasks);
+                _host.Toast("Teste concluído: " + sources.Count + " fontes consultadas.");
+            }
+            finally
+            {
+                if (button != null)
+                {
+                    button.IsEnabled = true;
+                    button.Content = "Testar todas";
+                }
             }
         }
 

@@ -518,6 +518,28 @@ namespace SoloMangasNative
             return new SourceHit { Source = source, Index = index, Error = "tempo esgotado" };
         }
 
+        /// <summary>
+        /// Falha de rede ou timeout não encerra a fonte na busca global: espera meio
+        /// segundo e tenta mais uma vez, com alguns segundos extras de teto.
+        /// </summary>
+        private static async Task<SourceHit> QueryWithRetryAsync(ISource source, int index, SourceQuery query, int timeoutMs)
+        {
+            var hit = await QueryWithTimeoutAsync(source, index, query, timeoutMs).ConfigureAwait(false);
+            if (hit.Error == null) return hit;
+
+            Log.Write("catalog: " + source.Key + " falhou (" + hit.Error + "); tentando de novo");
+            await Task.Delay(500).ConfigureAwait(false);
+
+            return await QueryWithTimeoutAsync(source, index, new SourceQuery
+            {
+                Page = query.Page,
+                Limit = query.Limit,
+                Q = query.Q,
+                Genre = query.Genre,
+                Adult = query.Adult,
+            }, timeoutMs + 4000).ConfigureAwait(false);
+        }
+
         private static async Task<T> WithTimeout<T>(Task<T> task, int timeoutMs)
         {
             var done = await Task.WhenAny(task, Task.Delay(timeoutMs)).ConfigureAwait(false);
@@ -688,7 +710,7 @@ namespace SoloMangasNative
 
             var pending = new List<Task<SourceHit>>();
             for (var i = 0; i < sources.Count; i++)
-                pending.Add(QueryWithTimeoutAsync(sources[i], i, query, 12000));
+                pending.Add(QueryWithRetryAsync(sources[i], i, query, 12000));
 
             _stream.Clear();
             _streamKeys.Clear();

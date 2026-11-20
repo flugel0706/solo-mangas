@@ -4,6 +4,41 @@ Todas as mudanças relevantes do Solo Mangás são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [2.9.0] — 2026-11-20
+
+### Adicionado
+- **Duas fontes novas**: **MangaRead**, catálogo grande de mangás, manhwas e
+  manhuas em inglês com a lista completa de capítulos no HTML da obra, e
+  **Mangapill**, mangás em inglês com mais de mil capítulos nas séries longas.
+- **Teste de fontes em Configurações**: cada fonte ganhou o botão *Testar*, que
+  consulta o catálogo e mostra status e tempo de resposta na própria linha;
+  *Testar todas* consulta todas em paralelo.
+- **Repetição automática na busca global**: a fonte que falhou ou estourou o
+  tempo é consultada de novo, com teto maior, antes de ser marcada como sem
+  resposta.
+
+### Alterado
+- **MangaDex resistente a limite de requisições (429)**: as chamadas passam a
+  ser espaçadas, o `Retry-After` do servidor é respeitado e a requisição é
+  repetida até três vezes antes de mostrar erro.
+- **MangaDex com fallback de idioma**: catálogo vazio em pt-br é repetido em
+  inglês; obras com menos de três capítulos em português completam a lista com
+  os capítulos em inglês, sem repetir números.
+- Mensagens de erro da MangaDex agora distinguem limite de requisições,
+  instabilidade do serviço e falha de TLS/rede.
+- Lista de fontes em Configurações, no Sobre e no site atualizada para as oito
+  fontes (seis em português e duas em inglês).
+
+### Corrigido
+- A busca global não marca mais uma fonte como "sem resposta" na primeira
+  falha: ela tenta de novo com alguns segundos extras de teto.
+- Status da obra no MangaRead aparece em português (Em andamento, Completo,
+  Em hiato, Cancelado).
+
+### Preservado
+- Favoritos, histórico, capítulos lidos, posições de leitura e o `store.json`
+  das versões 2.7, 2.8.0 e 2.8.1 continuam intactos.
+
 ## [2.8.1] — 2026-11-19
 
 ### Corrigido

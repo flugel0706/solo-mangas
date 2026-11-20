@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using SoloMangas.Shared;
 
@@ -88,22 +89,99 @@ namespace SoloMangasNative
         // ------------------------------------------------------------------
         // HTTP / JSON
         // ------------------------------------------------------------------
+        // A MangaDex limita requisicoes por IP e responde 429 quando o limite e
+        // passado. Espacamos as chamadas e repetimos usando o Retry-After do
+        // servidor, em vez de mostrar erro na primeira falha.
+        private static readonly SemaphoreSlim TrafficGate = new SemaphoreSlim(1, 1);
+        private static DateTime _lastCall = DateTime.MinValue;
+        private const int MinIntervalMs = 230;
+
+        private static async Task SpaceAsync()
+        {
+            await TrafficGate.WaitAsync().ConfigureAwait(false);
+            try
+            {
+                var since = (DateTime.UtcNow - _lastCall).TotalMilliseconds;
+                var wait = MinIntervalMs - since;
+                if (wait > 1) await Task.Delay((int)Math.Min(MinIntervalMs, wait)).ConfigureAwait(false);
+                _lastCall = DateTime.UtcNow;
+            }
+            finally
+            {
+                TrafficGate.Release();
+            }
+        }
+
+        private static int RetryAfterMs(MdResponse res)
+        {
+            if (res == null || !res.Headers.TryGetValue("retry-after", out var raw) || string.IsNullOrWhiteSpace(raw))
+                return 0;
+            raw = raw.Trim();
+            if (double.TryParse(raw, NumberStyles.Float, CultureInfo.InvariantCulture, out var seconds))
+                return (int)Math.Min(15000, Math.Max(0, seconds * 1000));
+            if (DateTimeOffset.TryParse(raw, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var when))
+                return (int)Math.Min(15000, Math.Max(0, (when - DateTimeOffset.UtcNow).TotalMilliseconds));
+            return 0;
+        }
+
         private static async Task<JsonElement> GetAsync(string path)
         {
             // A MangaDex exige TLS 1.3; o SChannel do Windows nao oferece como cliente,
             // entao usamos o cliente BouncyCastle (MangaDexHttp).
-            var res = await MangaDexHttp.GetAsync(Api + path, "application/json", 30000).ConfigureAwait(false);
-
-            if (res.Status == 429) throw new Exception("Limite de requisicoes da MangaDex atingido. Tente em alguns segundos.");
-            if (res.Status == 0) throw new Exception("Nao foi possivel conectar a MangaDex (TLS/rede).");
-            if (res.Status < 200 || res.Status >= 300)
+            Exception last = null;
+            for (var attempt = 0; attempt < 3; attempt++)
             {
-                var detail = res.Text ?? string.Empty;
-                if (detail.Length > 120) detail = detail.Substring(0, 120);
-                throw new Exception("MangaDex respondeu " + res.Status + (detail.Length > 0 ? " - " + detail : string.Empty));
+                await SpaceAsync().ConfigureAwait(false);
+
+                MdResponse res = null;
+                try
+                {
+                    res = await MangaDexHttp.GetAsync(Api + path, "application/json", 30000).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    last = new Exception("MangaDex: falha de rede (" + ex.Message + ").");
+                }
+
+                if (res != null)
+                {
+                    if (res.Status >= 200 && res.Status < 300)
+                    {
+                        using var doc = JsonDocument.Parse(string.IsNullOrWhiteSpace(res.Text) ? "{}" : res.Text);
+                        return doc.RootElement.Clone();
+                    }
+
+                    if (res.Status == 429)
+                    {
+                        var wait = RetryAfterMs(res);
+                        last = new Exception("A MangaDex limitou as requisicoes (429).");
+                        if (attempt < 2)
+                        {
+                            await Task.Delay(wait > 0 ? wait : 1200 * (attempt + 1)).ConfigureAwait(false);
+                            continue;
+                        }
+                        throw new Exception("A MangaDex limitou as requisicoes. Aguarde alguns segundos e tente de novo.");
+                    }
+
+                    if (res.Status == 0)
+                    {
+                        last = new Exception("Nao foi possivel conectar a MangaDex (TLS/rede).");
+                    }
+                    else if (res.Status >= 500)
+                    {
+                        last = new Exception("A MangaDex esta instavel (HTTP " + res.Status + ").");
+                    }
+                    else
+                    {
+                        var detail = res.Text ?? string.Empty;
+                        if (detail.Length > 120) detail = detail.Substring(0, 120);
+                        throw new Exception("MangaDex respondeu " + res.Status + (detail.Length > 0 ? " - " + detail : string.Empty));
+                    }
+                }
+
+                if (attempt < 2) await Task.Delay(700 * (attempt + 1)).ConfigureAwait(false);
             }
-            using var doc = JsonDocument.Parse(string.IsNullOrWhiteSpace(res.Text) ? "{}" : res.Text);
-            return doc.RootElement.Clone();
+            throw last ?? new Exception("MangaDex: sem resposta.");
         }
 
         private async Task<Dictionary<string, string>> TagsAsync()
@@ -272,7 +350,22 @@ namespace SoloMangasNative
         // ------------------------------------------------------------------
         private static string Q(string key, string value) => "&" + Uri.EscapeDataString(key) + "=" + Uri.EscapeDataString(value);
 
+        /// <summary>
+        /// Catalogo em pt-br. Se a primeira pagina vier vazia (obra so publicada
+        /// em ingles), repete a consulta em en para a fonte nao parecer quebrada.
+        /// </summary>
         public async Task<CatalogResult> CatalogAsync(SourceQuery query)
+        {
+            var page = await CatalogPageAsync(query, "pt-br").ConfigureAwait(false);
+            if (page.Page == 1 && page.Items.Count == 0)
+            {
+                var fallback = await CatalogPageAsync(query, "en").ConfigureAwait(false);
+                if (fallback.Items.Count > 0) return fallback;
+            }
+            return page;
+        }
+
+        private async Task<CatalogResult> CatalogPageAsync(SourceQuery query, string lang)
         {
             var page = new CatalogResult { Page = Math.Max(1, query.Page) };
             var limit = Math.Max(1, Math.Min(60, query.Limit));
@@ -280,7 +373,7 @@ namespace SoloMangasNative
 
             var qs = "?limit=" + limit.ToString(CultureInfo.InvariantCulture) +
                      "&offset=" + offset.ToString(CultureInfo.InvariantCulture) +
-                     Q("availableTranslatedLanguage[]", "pt-br") +
+                     Q("availableTranslatedLanguage[]", lang) +
                      Q("includes[]", "cover_art") +
                      Q("order[followedCount]", "desc");
             if (_adultOnly)
@@ -342,14 +435,14 @@ namespace SoloMangasNative
             return m;
         }
 
-        public async Task<List<Chapter>> ChaptersAsync(string id)
+        private async Task<List<Chapter>> FeedAsync(string id, string lang)
         {
             var found = new Dictionary<string, Chapter>(StringComparer.Ordinal);
             var offset = 0;
             const int size = 500;
             while (true)
             {
-                var qs = "?translatedLanguage%5B%5D=pt-br&order%5Bchapter%5D=asc&limit=" + size +
+                var qs = "?translatedLanguage%5B%5D=" + lang + "&order%5Bchapter%5D=asc&limit=" + size +
                          "&offset=" + offset + "&includeExternalUrl=0&includeFutureUpdates=0";
                 var j = await GetAsync("/manga/" + Uri.EscapeDataString(id) + "/feed" + qs).ConfigureAwait(false);
                 if (!j.TryGetProperty("data", out var data) || data.ValueKind != JsonValueKind.Array) break;
@@ -396,7 +489,39 @@ namespace SoloMangasNative
                 if (offset > 5000) break;
             }
 
-            var list = found.Values.ToList();
+            return found.Values.ToList();
+        }
+
+        /// <summary>
+        /// Feed em pt-br. Quando a obra tem menos de tres capitulos em portugues,
+        /// completa com os capitulos em ingles, sem repetir numeros ja presentes.
+        /// </summary>
+        public async Task<List<Chapter>> ChaptersAsync(string id)
+        {
+            var list = await FeedAsync(id, "pt-br").ConfigureAwait(false);
+            if (list.Count < 3)
+            {
+                List<Chapter> english;
+                try
+                {
+                    english = await FeedAsync(id, "en").ConfigureAwait(false);
+                }
+                catch
+                {
+                    english = new List<Chapter>();
+                }
+
+                if (english.Count > 0)
+                {
+                    var seen = new HashSet<double>(list.Where(c => c.Number > 0).Select(c => c.Number));
+                    foreach (var c in english)
+                    {
+                        if (c.Number > 0 && !seen.Add(c.Number)) continue;
+                        list.Add(c);
+                    }
+                }
+            }
+
             list.Sort((x, y) =>
             {
                 var c = x.Number.CompareTo(y.Number);

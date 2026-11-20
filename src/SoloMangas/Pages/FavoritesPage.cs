@@ -76,7 +76,9 @@ namespace SoloMangasNative
         private void Render()
         {
             _list.Children.Clear();
-            var favs = LocalStore.Instance.Favorites.ToList();
+            var favs = LocalStore.Instance.Favorites
+                .Where(f => SourceRegistry.Instance.Has(f.Source))
+                .ToList();
             if (!_recentFirst)
                 favs = favs.OrderBy(f => f.Title, StringComparer.CurrentCultureIgnoreCase).ToList();
 

@@ -238,6 +238,7 @@ namespace SoloMangasNative
             _continuePanel.Children.Clear();
             var entries = LocalStore.Instance.History
                 .Where(h => !string.IsNullOrWhiteSpace(h.MangaId))
+                .Where(h => SourceRegistry.Instance.Has(h.Source))
                 .Take(8)
                 .ToList();
 

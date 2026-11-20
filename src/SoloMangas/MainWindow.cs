@@ -851,6 +851,12 @@ namespace SoloMangasNative
 
         public void ShowManga(string source, string id, bool adult, string openChapterId = null, bool resetStack = false)
         {
+            if (!SourceRegistry.Instance.Has(source))
+            {
+                Toast("Esta obra pertence a uma fonte que não está mais disponível. O app usa somente fontes em português.", true);
+                return;
+            }
+
             SyncSource(source);
             var page = new MangaPage(this, source, id, adult, openChapterId);
             Navigate(page, string.Empty, resetStack);

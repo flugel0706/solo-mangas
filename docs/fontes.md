@@ -61,8 +61,8 @@ public interface ISource
 - Cliente TLS próprio (`MangaDexHttp`) para os endpoints que exigem HTTP/2 e
   TLS 1.3 com as suites aceitas pela API.
 - Requisições espaçadas (≈230 ms), até três tentativas em 429/5xx e respeito ao
-  `Retry-After`; o catálogo em pt-br vazio é repetido em inglês e obras com
-  menos de três capítulos em português completam a lista com o feed `en`.
+  `Retry-After`; catálogo e capítulos são sempre em `pt-br`, sem fallback para
+  inglês.
 - A variante `mangadex18` reutiliza o mesmo adaptador com o escopo adulto.
 
 ### MangaFlix (`MangaFlixSource`)
@@ -80,24 +80,6 @@ public interface ISource
 - Metadados na página da obra; capítulos pelo REST público
   `/wp-json/slimeread/v1/chapters/<id>?offset=N` (30 por requisição).
 - O leitor lê as imagens de `/capitulo/<slug>/`.
-
-### MangaRead (`MangaReadSource`)
-
-- Tema Madara em `mangaread.org` (inglês): busca em `/?s=<termo>&post_type=wp-manga`.
-- Catálogo sem termo em `/manga/page/N/?m_orderby=views`; gêneros em `/genres/<slug>/`.
-- O HTML da obra traz capa, sinopse, gêneros, status e a lista completa de
-  capítulos em `li.wp-manga-chapter`, então detalhe e capítulos usam uma única
-  requisição (cache de 10 min).
-- Imagens do leitor em `img.wp-manga-chapter-img` (exigem `Referer` do site).
-
-### Mangapill (`MangaPillSource`)
-
-- HTML estático em `mangapill.com` (inglês), sem JavaScript.
-- Busca em ``/search?q=<termo>&page=N``; gêneros em ``/search?genre=<nome>&page=N``.
-- A home lista os últimos lançamentos; a página da obra
-  `/manga/<id>/<slug>` traz todos os capítulos de uma vez.
-- As páginas do capítulo já vêm no HTML; as imagens ficam no CDN
-  `cdn.readdetectiveconan.com` e exigem `Referer` do site.
 
 ### Fontes exclusivamente +18
 

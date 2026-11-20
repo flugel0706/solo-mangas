@@ -1,0 +1,6 @@
+2.9.1 — somente fontes em português
+
+• MangaRead e Mangapill (em inglês) foram removidas do app, da busca e dos testes
+• MangaDex voltou a usar somente obras e capítulos em pt-br, sem fallback para inglês
+• Obras antigas de uma fonte removida mostram um aviso claro em vez de erro
+• Favoritos, histórico, posições e store.json intactos

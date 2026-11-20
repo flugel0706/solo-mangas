@@ -29,14 +29,14 @@ A versão pronta fica na página de **[Releases](releases/latest)**.
 
 | Edição | Arquivo | Tamanho | Requisito |
 |---|---|---|---|
-| Windows x64 | `Solo-Mangas-2.9.0.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
+| Windows x64 | `Solo-Mangas-2.9.1.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
 
 > O executável é autocontido: não precisa de .NET, WebView2 nem runtime adicional.
 
 **Verificar o hash (PowerShell):**
 
 ```powershell
-Get-FileHash .\Solo-Mangas-2.9.0.exe -Algorithm SHA256
+Get-FileHash .\Solo-Mangas-2.9.1.exe -Algorithm SHA256
 ```
 
 O hash e o tamanho de cada versão ficam na release e no `update.json`.
@@ -50,7 +50,7 @@ O hash e o tamanho de cada versão ficam na release e no `update.json`.
 - Troca em **Configurações → Aparência**; o app reinicia para aplicar.
 
 ### Catálogo e busca
-- Oito fontes: **Mangeek**, **Manhastro**, **Ler Mangá**, **MangaDex**, **MangaFlix** e **MangaLivre** em português; **MangaRead** e **Mangapill** em inglês.
+- Seis fontes em português: **Mangeek**, **Manhastro**, **Ler Mangá**, **MangaDex**, **MangaFlix** e **MangaLivre**.
 - Quatro fontes exclusivamente +18 liberadas com o modo adulto: **Hanami Heaven**, **HQ Brasa**, **Melhor Hentai** e **MangaDex +18**.
 - Busca global consulta todas as fontes visíveis de uma vez e agrupa títulos repetidos; cada fonte aparece assim que responde.
 - Fonte que falhou ou estourou o tempo é consultada de novo antes de ser marcada como sem resposta.
@@ -59,7 +59,7 @@ O hash e o tamanho de cada versão ficam na release e no `update.json`.
 
 ### Resiliência das fontes
 - **MangaDex** espaça as requisições, respeita o `Retry-After` em 429 e repete até três vezes antes de mostrar erro.
-- Catálogo vazio em pt-br é repetido em inglês; obras com menos de três capítulos em português completam a lista com o feed em inglês, sem repetir números.
+- Catálogo e capítulos da MangaDex são somente em pt-br; nada de fallback para inglês.
 - **Configurações → Fontes** tem *Testar* em cada fonte (status, tempo e obras) e *Testar todas* em paralelo.
 - Mensagens de erro distinguem limite de requisições, serviço instável e falha de TLS/rede.
 
@@ -102,8 +102,6 @@ O hash e o tamanho de cada versão ficam na release e no `update.json`.
 | **MangaDex** | API pública (PT-BR) | sim | traduzidos | sim | não |
 | **MangaFlix** | SSR + API pública | sim | 54 categorias | sim | não |
 | **MangaLivre** | WordPress + Slimeread | sim | 9 gêneros | sim | não |
-| **MangaRead** | Madara (EN) | sim | 29 gêneros | sim | não |
-| **Mangapill** | HTML estático (EN) | sim | 46 gêneros | não | não |
 | **Hanami Heaven** | Madara | sim | do site | só +18 | não |
 | **HQ Brasa** | catálogo próprio | sim | do site | só +18 | não |
 | **Melhor Hentai** | WordPress | sim | do site | só +18 | não |

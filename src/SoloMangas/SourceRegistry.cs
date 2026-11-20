@@ -26,8 +26,6 @@ namespace SoloMangasNative
             _sources.Add(new MangaDexSource());
             _sources.Add(new MangaFlixSource());
             _sources.Add(new MangaLivreSource());
-            _sources.Add(new MangaReadSource());
-            _sources.Add(new MangaPillSource());
 
             // Fontes exclusivamente +18 (em portugues). Ficam ocultas ate o modo +18 ligar.
             _sources.Add(new HanamiSource());
@@ -55,6 +53,13 @@ namespace SoloMangasNative
             var hit = _sources.FirstOrDefault(s => string.Equals(s.Key, key, StringComparison.OrdinalIgnoreCase));
             if (hit == null) throw new Exception("Fonte desconhecida: " + key);
             return hit;
+        }
+
+        /// <summary>Verdadeiro quando a fonte ainda existe no app.</summary>
+        public bool Has(string key)
+        {
+            return !string.IsNullOrEmpty(key) &&
+                   _sources.Any(s => string.Equals(s.Key, key, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

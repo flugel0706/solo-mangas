@@ -4,6 +4,21 @@ Todas as mudanças relevantes do Solo Mangás são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [2.9.1] — 2026-11-20
+
+### Corrigido
+- **Fontes em inglês removidas**: MangaRead e Mangapill não aparecem mais no
+  app, na busca global nem no teste de fontes. O Solo Mangás trabalha somente
+  com fontes em português.
+- **MangaDex estritamente em pt-br**: o catálogo não repete mais a busca em
+  inglês e a lista de capítulos não é completada com o feed `en`.
+- Obra salva em favoritos ou histórico de uma fonte removida agora mostra um
+  aviso claro em vez de erro ao abrir.
+
+### Preservado
+- Favoritos, histórico, capítulos lidos, posições de leitura e o `store.json`
+  das versões 2.7, 2.8.0, 2.8.1 e 2.9.0 continuam intactos.
+
 ## [2.9.0] — 2026-11-20
 
 ### Adicionado

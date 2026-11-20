@@ -350,19 +350,10 @@ namespace SoloMangasNative
         // ------------------------------------------------------------------
         private static string Q(string key, string value) => "&" + Uri.EscapeDataString(key) + "=" + Uri.EscapeDataString(value);
 
-        /// <summary>
-        /// Catalogo em pt-br. Se a primeira pagina vier vazia (obra so publicada
-        /// em ingles), repete a consulta em en para a fonte nao parecer quebrada.
-        /// </summary>
+        /// <summary>Catalogo somente em pt-br. Nao cai para ingles.</summary>
         public async Task<CatalogResult> CatalogAsync(SourceQuery query)
         {
-            var page = await CatalogPageAsync(query, "pt-br").ConfigureAwait(false);
-            if (page.Page == 1 && page.Items.Count == 0)
-            {
-                var fallback = await CatalogPageAsync(query, "en").ConfigureAwait(false);
-                if (fallback.Items.Count > 0) return fallback;
-            }
-            return page;
+            return await CatalogPageAsync(query, "pt-br").ConfigureAwait(false);
         }
 
         private async Task<CatalogResult> CatalogPageAsync(SourceQuery query, string lang)
@@ -492,35 +483,10 @@ namespace SoloMangasNative
             return found.Values.ToList();
         }
 
-        /// <summary>
-        /// Feed em pt-br. Quando a obra tem menos de tres capitulos em portugues,
-        /// completa com os capitulos em ingles, sem repetir numeros ja presentes.
-        /// </summary>
+        /// <summary>Feed somente em pt-br, sem completar com capitulos em ingles.</summary>
         public async Task<List<Chapter>> ChaptersAsync(string id)
         {
             var list = await FeedAsync(id, "pt-br").ConfigureAwait(false);
-            if (list.Count < 3)
-            {
-                List<Chapter> english;
-                try
-                {
-                    english = await FeedAsync(id, "en").ConfigureAwait(false);
-                }
-                catch
-                {
-                    english = new List<Chapter>();
-                }
-
-                if (english.Count > 0)
-                {
-                    var seen = new HashSet<double>(list.Where(c => c.Number > 0).Select(c => c.Number));
-                    foreach (var c in english)
-                    {
-                        if (c.Number > 0 && !seen.Add(c.Number)) continue;
-                        list.Add(c);
-                    }
-                }
-            }
 
             list.Sort((x, y) =>
             {

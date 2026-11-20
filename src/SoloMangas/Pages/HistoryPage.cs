@@ -70,7 +70,9 @@ namespace SoloMangasNative
         private void Render()
         {
             _list.Children.Clear();
-            var entries = LocalStore.Instance.History;
+            var entries = LocalStore.Instance.History
+                .Where(h => SourceRegistry.Instance.Has(h.Source))
+                .ToList();
             if (entries.Count == 0)
             {
                 _subtitle.Text = "Nada lido ainda";

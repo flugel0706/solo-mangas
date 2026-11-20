@@ -1,7 +1,7 @@
 {
-    "version":  "2.9.0",
-    "url":  "https://github.com/flugel0706/solo-mangas/releases/download/v2.9.0/Solo-Mangas-2.9.0.exe",
-    "sha256":  "2AF750B606A2792E82A2315081D7E8480F8523ED08F296E8F2851776DD98B8EB",
-    "size":  83062606,
-    "notes":  "2.9 — duas fontes novas e fontes mais estáveis\n\n• Novas fontes em inglês: MangaRead e Mangapill, com catálogo grande e leitura completa\n• MangaDex espaça as requisições, respeita o Retry-After em 429 e repete até três vezes\n• Catálogo em pt-br vazio é repetido em inglês; obras com menos de três capítulos em português completam a lista com o feed em inglês\n• Configurações → Fontes ganhou Testar em cada fonte (status, tempo e obras) e Testar todas em paralelo\n• Busca global repete a fonte que falhou ou estourou o tempo antes de marcar como sem resposta\n• Favoritos, histórico, posições e store.json das versões anteriores intactos"
+    "version":  "2.9.1",
+    "url":  "https://github.com/flugel0706/solo-mangas/releases/download/v2.9.1/Solo-Mangas-2.9.1.exe",
+    "sha256":  "522E63F590B02DFA053DB129FE1416D445F61BE756CF4ABF4F0E48FF40540CC3",
+    "size":  83054760,
+    "notes":  "2.9.1 — somente fontes em português\n\n• MangaRead e Mangapill (em inglês) foram removidas do app, da busca e dos testes\n• MangaDex voltou a usar somente obras e capítulos em pt-br, sem fallback para inglês\n• Obras antigas de uma fonte removida mostram um aviso claro em vez de erro\n• Favoritos, histórico, posições e store.json intactos"
 }

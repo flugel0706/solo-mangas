@@ -1,0 +1,7 @@
+2.9.2 — duas fontes novas e leitor mais rápido
+
+• Suki Mangás e GoMangas entram como fontes em português
+• Lista de páginas em cache (memória + disco) e próximo capítulo pré-carregado
+• Primeiras páginas baixam junto com a tela; até 12 downloads simultâneos
+• GoMangas com filtro de gênero real, total de obras e capas corrigidas
+• Favoritos, histórico, posições e store.json intactos

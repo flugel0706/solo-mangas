@@ -390,7 +390,10 @@ namespace SoloMangasNative
                        "Sem WebView2: telas, leitor, histórico e favoritos construídos em WPF.\n" +
                        "Temas: Sangue & aço (visual clássico) e Call of Duty (fundo real, oliva e dourado), " +
                        "trocáveis em Configurações > Aparência.\n" +
-                       "Novidades da 2.9.1: fontes em inglês removidas — o app trabalha somente com fontes em português. " +
+                       "Novidades da 2.9.2: duas fontes novas em português, Suki Mangás e GoMangas. " +
+                       "O leitor ficou mais rápido: a lista de páginas fica em cache, as primeiras páginas " +
+                       "baixam junto com a tela e o próximo capítulo já vem pré-carregado. " +
+                       "Da 2.9.1: fontes em inglês removidas — o app trabalha somente com fontes em português. " +
                        "A MangaDex voltou a listar apenas obras e capítulos em pt-br. " +
                        "Da 2.9: teste de saúde de cada fonte em Configurações e busca global que repete a fonte que falhou. " +
                        "A MangaDex espaça as requisições, respeita o Retry-After e repete até três vezes.\n" +
@@ -398,7 +401,8 @@ namespace SoloMangasNative
                        "presas na letra inicial, e continuam sob demanda para poupar memória.\n" +
                        "Da 2.8: tema Call of Duty com papel de parede real, restauração de backup " +
                        "pelo próprio app, capítulos com ordem por tela e ajustes de legibilidade no leitor.\n" +
-                       "Fontes: Mangeek, Manhastro, Ler Mangá, MangaDex, MangaFlix e MangaLivre, todas em português. " +
+                       "Fontes: Mangeek, Manhastro, Ler Mangá, MangaDex, MangaFlix, MangaLivre, " +
+                       "Suki Mangás e GoMangas, todas em português. " +
                        "Com o modo +18 ligado entram Hanami Heaven, HQ Brasa, Melhor Hentai e MangaDex +18, " +
                        "também em português. A busca global consulta todas as fontes visíveis e agrupa títulos repetidos.\n" +
                        "Da 2.7: capas em cache, carregamento sob demanda, busca global progressiva e tela inicial repaginada.\n" +

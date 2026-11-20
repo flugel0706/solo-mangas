@@ -29,14 +29,14 @@ A versão pronta fica na página de **[Releases](releases/latest)**.
 
 | Edição | Arquivo | Tamanho | Requisito |
 |---|---|---|---|
-| Windows x64 | `Solo-Mangas-2.9.1.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
+| Windows x64 | `Solo-Mangas-2.9.2.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
 
 > O executável é autocontido: não precisa de .NET, WebView2 nem runtime adicional.
 
 **Verificar o hash (PowerShell):**
 
 ```powershell
-Get-FileHash .\Solo-Mangas-2.9.1.exe -Algorithm SHA256
+Get-FileHash .\Solo-Mangas-2.9.2.exe -Algorithm SHA256
 ```
 
 O hash e o tamanho de cada versão ficam na release e no `update.json`.
@@ -50,7 +50,7 @@ O hash e o tamanho de cada versão ficam na release e no `update.json`.
 - Troca em **Configurações → Aparência**; o app reinicia para aplicar.
 
 ### Catálogo e busca
-- Seis fontes em português: **Mangeek**, **Manhastro**, **Ler Mangá**, **MangaDex**, **MangaFlix** e **MangaLivre**.
+- Oito fontes em português: **Mangeek**, **Manhastro**, **Ler Mangá**, **MangaDex**, **MangaFlix**, **MangaLivre**, **Suki Mangás** e **GoMangas**.
 - Quatro fontes exclusivamente +18 liberadas com o modo adulto: **Hanami Heaven**, **HQ Brasa**, **Melhor Hentai** e **MangaDex +18**.
 - Busca global consulta todas as fontes visíveis de uma vez e agrupa títulos repetidos; cada fonte aparece assim que responde.
 - Fonte que falhou ou estourou o tempo é consultada de novo antes de ser marcada como sem resposta.
@@ -66,6 +66,10 @@ O hash e o tamanho de cada versão ficam na release e no `update.json`.
 ### Leitor
 - Rolagem contínua (webtoon) ou página a página.
 - Leitura contínua: emenda o próximo capítulo no fim do atual.
+- A lista de páginas fica em cache (memória + disco) e o próximo capítulo já é
+  pré-carregado antes de você chegar ao fim.
+- As primeiras páginas do capítulo começam a baixar junto com a montagem da
+  tela, em vez de esperar o primeiro evento de rolagem.
 - Zoom por `Ctrl` + roda ou botões `A−` / `A+`.
 - Tela cheia real (`F11`), com barra de tarefas e moldura escondidas.
 - Barra de progresso, seletor de capítulos, capítulo anterior/próximo.
@@ -85,6 +89,8 @@ O hash e o tamanho de cada versão ficam na release e no `update.json`.
 - Cache de capas em memória com limite de pixels e LRU.
 - Conversão AVIF/HEIF em cache separado (Magick.NET).
 - Download e decodificação com limites independentes: a rede não espera a CPU.
+- Até 12 downloads simultâneos e 6 decodificações em paralelo; reabrir um
+  capítulo reaproveita a lista de páginas em vez de consultar a fonte de novo.
 
 ### Atualizações
 - O app verifica, baixa e instala versões novas sozinho.
@@ -102,6 +108,8 @@ O hash e o tamanho de cada versão ficam na release e no `update.json`.
 | **MangaDex** | API pública (PT-BR) | sim | traduzidos | sim | não |
 | **MangaFlix** | SSR + API pública | sim | 54 categorias | sim | não |
 | **MangaLivre** | WordPress + Slimeread | sim | 9 gêneros | sim | não |
+| **Suki Mangás** | API JSON própria | sim | 35 gêneros | sim | não |
+| **GoMangas** | Next.js (SSR) | sim | 27 gêneros | sim | não |
 | **Hanami Heaven** | Madara | sim | do site | só +18 | não |
 | **HQ Brasa** | catálogo próprio | sim | do site | só +18 | não |
 | **Melhor Hentai** | WordPress | sim | do site | só +18 | não |

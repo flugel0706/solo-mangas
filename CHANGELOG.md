@@ -4,6 +4,38 @@ Todas as mudanças relevantes do Solo Mangás são registradas aqui.
 O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [2.9.2] — 2026-11-20
+
+### Adicionado
+- **Suki Mangás**: catálogo próprio em português com busca, gêneros, capítulos
+  e páginas servidos por uma API JSON; token de capítulo estável para
+  histórico e favoritos.
+- **GoMangas**: catálogo grande em português com busca, filtro por gênero,
+  obra, capítulos e leitor; as páginas usam a variante de até 1080 px para
+  baixar menos e abrir mais rápido.
+
+### Alterado
+- **Leitor mais rápido**: a lista de páginas do capítulo fica em cache na
+  memória (1 hora) e em disco (7 dias); as primeiras páginas do capítulo e a
+  lista do próximo capítulo começam a carregar antes de você chegar nelas.
+- **Virtualização por índice**: as páginas próximas da tela são baixadas mesmo
+  quando a altura do placeholder não bate com a imagem final; o descarte de
+  bitmaps distantes continua.
+- **Download e decodificação** em paralelo: até 12 imagens em rede e 6 em
+  decodificação, com cache de imagens maior (400 arquivos / 96 MB).
+- O próximo capítulo é emendado um pouco antes do fim do atual.
+- GoMangas respeita o filtro de gênero do site (`genre=`) e mostra o total de
+  obras no topo do catálogo.
+
+### Corrigido
+- Capas ausentes do GoMangas não mostram mais o placeholder do MangaLivre, que
+  respondia 403 com o Referer do GoMangas; o card usa o placeholder local.
+- Reabrir um capítulo não refaz a consulta da lista de páginas.
+
+### Preservado
+- Favoritos, histórico, capítulos lidos, posições de leitura e o `store.json`
+  das versões 2.7, 2.8.0, 2.8.1, 2.9.0 e 2.9.1 continuam intactos.
+
 ## [2.9.1] — 2026-11-20
 
 ### Corrigido

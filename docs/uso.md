@@ -4,7 +4,7 @@ Guia completo do Solo Mangás. Para instalação rápida, veja o [README](../REA
 
 ## Instalação
 
-O Solo Mangás é portátil: baixe `Solo-Mangas-2.9.1.exe` e execute. Não há
+O Solo Mangás é portátil: baixe `Solo-Mangas-2.9.2.exe` e execute. Não há
 instalador, serviço ou driver.
 
 - O executável é **autocontido**: não precisa de .NET nem WebView2.

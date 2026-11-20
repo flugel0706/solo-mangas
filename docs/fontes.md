@@ -81,6 +81,28 @@ public interface ISource
   `/wp-json/slimeread/v1/chapters/<id>?offset=N` (30 por requisição).
 - O leitor lê as imagens de `/capitulo/<slug>/`.
 
+### Suki Mangás (`SukiSource`)
+
+- API JSON própria em `sukimangas.com/api/mangas`; o catálogo inteiro vem numa
+  requisição e é reutilizado por busca e gêneros (cache de 10 minutos).
+- Busca e filtro de gênero são aplicados localmente sobre o catálogo.
+- Detalhe em `/api/mangas/{id}` com a lista de capítulos e as páginas de cada
+  capítulo (`pages`, com fallback para `pagesLeves`).
+- O token do capítulo é `obra|capítulo`, estável para histórico e favoritos.
+- Capas e páginas ficam num CDN público (R2).
+
+### GoMangas (`GoMangasSource`)
+
+- Catálogo SSR em `gomangas.com/mangas?page=N`, busca em `/busca?q=` e filtro
+  de gênero em `/mangas?genre=<slug>`.
+- A página da obra traz todos os capítulos num payload RSC
+  (`"chapters":[["N","Capítulo N"],…]`); o detalhe usa o JSON-LD `Book` para
+  capa, sinopse e gêneros.
+- O leitor lê o array `"pages"` do payload e escolhe a maior variante até
+  1080 px (`m750`/`m1080`) para reduzir banda sem perder legibilidade.
+- Obras sem capa usam o placeholder local do card, porque a imagem "no-cover"
+  do site responde 403 com o Referer do GoMangas.
+
 ### Fontes exclusivamente +18
 
 | Fonte | Site | Tipo |

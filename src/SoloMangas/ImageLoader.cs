@@ -30,8 +30,8 @@ namespace SoloMangasNative
     public static class ImageLoader
     {
         private static readonly HttpClient Client = Create();
-        private static readonly SemaphoreSlim NetLimit = new SemaphoreSlim(10, 10);
-        private static readonly SemaphoreSlim DecodeLimit = new SemaphoreSlim(4, 4);
+        private static readonly SemaphoreSlim NetLimit = new SemaphoreSlim(12, 12);
+        private static readonly SemaphoreSlim DecodeLimit = new SemaphoreSlim(6, 6);
         private static readonly SemaphoreSlim ConvertGate = new SemaphoreSlim(2, 2);
 
         // ---------------- Bitmaps decodificados (por URL + largura) ----------------
@@ -53,8 +53,8 @@ namespace SoloMangasNative
         private static readonly LinkedList<string> ByteLru = new LinkedList<string>();
         private static readonly object ByteGate = new object();
         private static long _byteTotal;
-        private const long ByteBudget = 72L * 1024 * 1024;
-        private const int ByteLimit = 300;
+        private const long ByteBudget = 96L * 1024 * 1024;
+        private const int ByteLimit = 400;
 
         // ---------------- Conversões AVIF/HEIF (caras, ficam em memória) ----------------
         private static readonly Dictionary<string, byte[]> HeifCache = new Dictionary<string, byte[]>(StringComparer.Ordinal);

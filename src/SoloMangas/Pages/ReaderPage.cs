@@ -383,8 +383,10 @@ namespace SoloMangasNative
         /// </summary>
         private async Task AppendChapterAsync(Chapter chapter, bool first)
         {
-            var pages = await _source.PagesAsync(chapter.Id, _manga.Adult || LocalStore.Instance.Settings.Adult);
+            var adult = _manga.Adult || LocalStore.Instance.Settings.Adult;
+            var pages = await PageSetCache.GetAsync(_source, chapter.Id, adult);
 
+            var slotStart = _slots.Count;
             var host = new StackPanel { Margin = new Thickness(0) };
             if (!first) host.Children.Add(BuildChapterDivider(chapter));
 
@@ -443,6 +445,12 @@ namespace SoloMangasNative
             _pagesPanel.Children.Add(host);
             _segments.Add(new Segment { Chapter = chapter, Host = host });
             _ = Dispatcher.BeginInvoke(new Action(VirtualizePages), DispatcherPriority.Background);
+
+            // Começa o download antes do primeiro layout: as primeiras páginas já
+            // aparecem quando a janela termina de montar, em vez de esperar o
+            // timer de virtualização. No capítulo emendado, aquece só o começo.
+            PrimePages(slotStart, first ? 7 : 3);
+            PrefetchNextChapter(chapter);
 
             // Capitulos emendados so contam como lidos/historico quando o leitor entra neles
             // (UpdateActiveSegment); o capitulo inicial entra agora.
@@ -649,14 +657,15 @@ namespace SoloMangasNative
 
         private async Task LoadPageAsync(PageSlot slot)
         {
+            if (slot == null || slot.Image != null || slot.Busy) return;
             slot.Busy = true;
             var display = CurrentPageWidth();
-            // Acima de 125% de escala o ganho visual é pequeno e o custo de memória
+            // Acima de 120% de escala o ganho visual é pequeno e o custo de memória
             // cresce muito (páginas altas chegam a 1400x11000).
-            var scale = Math.Min(DpiScale(), 1.25);
+            var scale = Math.Min(DpiScale(), 1.2);
             var decode = (int)Math.Round(display * scale);
-            if (decode < 900) decode = 900;
-            if (decode > 1400) decode = 1400;
+            if (decode < 820) decode = 820;
+            if (decode > 1280) decode = 1280;
 
             BitmapImage bmp = null;
             try
@@ -692,6 +701,32 @@ namespace SoloMangasNative
             _ = Dispatcher.BeginInvoke(new Action(UpdatePageInfo), DispatcherPriority.Background);
         }
 
+        /// <summary>Dispara o download das primeiras páginas de um bloco recém-montado.</summary>
+        private void PrimePages(int start, int count)
+        {
+            if (_slots.Count == 0) return;
+            if (start < 0) start = 0;
+            var end = Math.Min(_slots.Count, start + Math.Max(1, count));
+            for (var i = start; i < end; i++)
+            {
+                var slot = _slots[i];
+                if (slot.Image == null && !slot.Busy) _ = LoadPageAsync(slot);
+            }
+        }
+
+        /// <summary>
+        /// Deixa a lista de páginas do próximo capítulo pronta antes de chegar ao
+        /// fim. Só a lista (URLs) é buscada; as imagens continuam sob demanda.
+        /// </summary>
+        private void PrefetchNextChapter(Chapter chapter)
+        {
+            var idx = _chapters.FindIndex(c => c.Id == chapter.Id);
+            if (idx < 0 || idx >= _chapters.Count - 1) return;
+            var next = _chapters[idx + 1];
+            var adult = _manga.Adult || LocalStore.Instance.Settings.Adult;
+            PageSetCache.Prefetch(_source, next.Id, adult);
+        }
+
         /// <summary>Libera bitmaps de páginas muito distantes e recarrega as que voltam à vista.</summary>
         private void VirtualizePages()
         {
@@ -699,8 +734,10 @@ namespace SoloMangasNative
             var top = _scroll.VerticalOffset;
             var bottom = top + _scroll.ViewportHeight;
 
+            // 1) Descarrega bitmaps bem distantes da tela.
             foreach (var slot in _slots)
             {
+                if (slot.Image == null) continue;
                 double y;
                 try
                 {
@@ -711,29 +748,52 @@ namespace SoloMangasNative
                     continue;
                 }
 
-                var h = (slot.Image != null ? slot.Holder.ActualHeight : slot.FrozenHeight) * _zoom;
-                var near = y + h >= top - 2500 && y <= bottom + 2500;
-                var far = y + h < top - 7000 || y > bottom + 7000;
+                var h = Math.Max(1, slot.Holder.ActualHeight * _zoom);
+                var far = y + h < top - 8000 || y > bottom + 8000;
+                if (!far) continue;
 
-                if (near && slot.Image == null && !slot.Busy)
+                slot.FrozenHeight = Math.Max(240, slot.Holder.ActualHeight);
+                slot.Holder.Height = slot.FrozenHeight;
+                slot.Holder.Child = new TextBlock
                 {
-                    _ = LoadPageAsync(slot);
-                }
-                else if (far && slot.Image != null)
+                    Text = "Página " + slot.Number + "…",
+                    Foreground = Theme.Muted,
+                    FontSize = 12,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                };
+                slot.Image.Source = null;
+                slot.Image = null;
+            }
+
+            // 2) Pré-carrega por índice: 3 páginas atrás e 8 à frente. Depender só
+            //    da posição em pixels erra quando o placeholder e a imagem real têm
+            //    alturas muito diferentes (tiras de webtoon).
+            var current = CurrentSlotIndex();
+            var first = Math.Max(0, current - 3);
+            var last = Math.Min(_slots.Count - 1, current + 8);
+            for (var i = first; i <= last; i++)
+            {
+                var slot = _slots[i];
+                if (slot.Image == null && !slot.Busy) _ = LoadPageAsync(slot);
+            }
+
+            // 3) Garante o que está visível mesmo se o índice estiver defasado.
+            foreach (var slot in _slots)
+            {
+                if (slot.Image != null || slot.Busy) continue;
+                double y;
+                try
                 {
-                    slot.FrozenHeight = Math.Max(240, slot.Holder.ActualHeight);
-                    slot.Holder.Height = slot.FrozenHeight;
-                    slot.Holder.Child = new TextBlock
-                    {
-                        Text = "Página " + slot.Number + "…",
-                        Foreground = Theme.Muted,
-                        FontSize = 12,
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center,
-                    };
-                    slot.Image.Source = null;
-                    slot.Image = null;
+                    y = slot.Holder.TransformToAncestor(_pagesPanel).Transform(new Point(0, 0)).Y * _zoom;
                 }
+                catch
+                {
+                    continue;
+                }
+
+                var h = SlotHeight(slot);
+                if (y + h >= top - 400 && y <= bottom + 1200) _ = LoadPageAsync(slot);
             }
         }
 
@@ -826,7 +886,7 @@ namespace SoloMangasNative
             if (!_continuous || _loadingNext || _segments.Count == 0) return;
             if (_scroll.ExtentHeight <= 0) return;
             var remaining = _scroll.ExtentHeight - (_scroll.VerticalOffset + _scroll.ViewportHeight);
-            if (remaining <= 1600) _ = MaybeLoadNextAsync();
+            if (remaining <= 2600) _ = MaybeLoadNextAsync();
         }
 
         private void SavePosition()
@@ -855,7 +915,7 @@ namespace SoloMangasNative
             if (_continuous && _segments.Count > 0)
             {
                 var remaining = _scroll.ExtentHeight - (_scroll.VerticalOffset + _scroll.ViewportHeight);
-                if (remaining <= 1600) _ = MaybeLoadNextAsync();
+                if (remaining <= 2600) _ = MaybeLoadNextAsync();
             }
         }
 
@@ -918,7 +978,12 @@ namespace SoloMangasNative
 
         private double SlotHeight(PageSlot slot)
         {
-            return Math.Max(1, (slot.Image != null ? slot.Holder.ActualHeight : slot.FrozenHeight) * _zoom);
+            // Placeholder ainda não carregado usa a altura estimada (MinHeight);
+            // uma página já descarregada usa a altura congelada para não pular.
+            var height = slot.Image == null && slot.FrozenHeight > 0
+                ? slot.FrozenHeight
+                : slot.Holder.ActualHeight;
+            return Math.Max(1, height * _zoom);
         }
 
         private int CurrentSlotIndex()

@@ -338,6 +338,8 @@ namespace SoloMangasNative
             {
                 case "mangalivre": return "https://mangalivre.blog/";
                 case "mangaflix": return "https://mangaflix.net/";
+                case "suki": return "https://www.sukimangas.com/";
+                case "gomangas": return "https://gomangas.com/";
                 case "mangadex": return "https://mangadex.org/";
                 case "mangadex18": return "https://mangadex.org/";
                 case "lermanga": return "https://lermangaonline.com.br/";

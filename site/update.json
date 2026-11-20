@@ -1,7 +1,7 @@
 {
-    "version":  "2.9.1",
-    "url":  "https://github.com/flugel0706/solo-mangas/releases/download/v2.9.1/Solo-Mangas-2.9.1.exe",
-    "sha256":  "522E63F590B02DFA053DB129FE1416D445F61BE756CF4ABF4F0E48FF40540CC3",
-    "size":  83054760,
-    "notes":  "2.9.1 — somente fontes em português\n\n• MangaRead e Mangapill (em inglês) foram removidas do app, da busca e dos testes\n• MangaDex voltou a usar somente obras e capítulos em pt-br, sem fallback para inglês\n• Obras antigas de uma fonte removida mostram um aviso claro em vez de erro\n• Favoritos, histórico, posições e store.json intactos"
+    "version":  "2.9.2",
+    "url":  "https://github.com/flugel0706/solo-mangas/releases/download/v2.9.2/Solo-Mangas-2.9.2.exe",
+    "sha256":  "FE592261074CDA09C78E17F48388F52A541D5AB569382C1D3CB70ED9C878DB15",
+    "size":  83068696,
+    "notes":  "2.9.2 — duas fontes novas e leitor mais rápido\n\n• Suki Mangás e GoMangas entram como fontes em português\n• Lista de páginas em cache (memória + disco) e próximo capítulo pré-carregado\n• Primeiras páginas baixam junto com a tela; até 12 downloads simultâneos\n• GoMangas com filtro de gênero real, total de obras e capas corrigidas\n• Favoritos, histórico, posições e store.json intactos"
 }

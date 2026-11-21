@@ -515,7 +515,7 @@ h2 {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #3a1b24;
+  background: #465c39;
 }
 
 .frame-dot:nth-child(1) {
@@ -523,7 +523,7 @@ h2 {
 }
 
 .frame-dot:nth-child(2) {
-  background: #5a1220;
+  background: #e08a3c;
 }
 
 .frame-title {

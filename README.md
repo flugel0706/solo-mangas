@@ -4,7 +4,7 @@
 
 # Solo Mangás
 
-**Leitor nativo de mangás, manhwas e manhuas para Windows.**
+**Leitor nativo de mangás, manhwas e manhuas para Windows e Android.**
 
 [![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)](#requisitos)
 [![Windows 10/11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?logo=windows&logoColor=white)](#requisitos)
@@ -19,7 +19,7 @@
 
 ---
 
-**Solo Mangás** é um leitor de mangás para Windows feito em **C# / .NET 8 / WPF**. É um executável único, portátil, sem instalador, sem WebView2 e sem anúncios dentro do app.
+**Solo Mangás** é um leitor de mangás para Windows feito em **C# / .NET 8 / WPF**. É um executável único, portátil, sem instalador, sem WebView2 e sem anúncios dentro do app. A versão Android é um APK assinado em Kotlin com as cinco fontes principais: Mangeek, Manhastro, MangaDex, MangaFlix e MangaLivre.
 
 A conta Mangeek é a mesma do celular — moedas, favoritos, histórico e progresso sincronizados. As demais fontes mantêm favoritos, histórico e posição de leitura localmente.
 
@@ -30,13 +30,15 @@ A versão pronta fica na página de **[Releases](releases/latest)**.
 | Edição | Arquivo | Tamanho | Requisito |
 |---|---|---|---|
 | Windows x64 | `Solo-Mangas-2.9.2.exe` | ~83 MB | Windows 10/11 x64 — nada para instalar |
+| Android | `Solo-Mangas-1.0.2-android.apk` | ~2 MB | Android 7.0+ — instalação manual |
 
-> O executável é autocontido: não precisa de .NET, WebView2 nem runtime adicional.
+> O executável é autocontido: não precisa de .NET, WebView2 nem runtime adicional. O APK é universal, assinado e não depende do Play Store.
 
 **Verificar o hash (PowerShell):**
 
 ```powershell
 Get-FileHash .\Solo-Mangas-2.9.2.exe -Algorithm SHA256
+Get-FileHash .\Solo-Mangas-1.0.2-android.apk -Algorithm SHA256
 ```
 
 O hash e o tamanho de cada versão ficam na release e no `update.json`.
@@ -168,6 +170,7 @@ O manifesto publicado nesta release está em **[update.json](https://github.com/
 ## Requisitos
 
 - Windows 10 ou Windows 11, x64
+- Android 7.0 ou mais novo para o APK
 - Para usar o executável: nada além do Windows
 - Para compilar: [.NET SDK 8](https://dotnet.microsoft.com/download/dotnet/8.0) e Windows
 

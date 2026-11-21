@@ -1,24 +1,26 @@
-/* ==========================================================================
-   Solo Mangás — landing estática
-   Tema "sangue & aço" extraído do app (WPF, Theme.cs)
+﻿/* ==========================================================================
+   Solo MangÃ¡s â€” landing estÃ¡tica
+   Tema "Call of Duty" extraÃ­do do app (WPF, Theme.cs): carvÃ£o/oliva,
+   dourado e a foto real de fundo do tema padrÃ£o da 2.8 em diante.
    ========================================================================== */
 
 :root {
-  --bg: #060305;
-  --bg-soft: #0a0507;
-  --panel: #100a0d;
-  --panel-2: #190e13;
-  --panel-3: #231319;
-  --line: #351720;
-  --line-soft: rgba(232, 17, 56, 0.16);
-  --text: #f8f1f3;
-  --muted: #a68c93;
-  --accent: #e81138;
-  --accent-2: #ff4a66;
-  --deep: #7c091b;
-  --ember: #ff8a4d;
-  --good: #4fe0a6;
-  --gold: #f6c650;
+  --bg: #070a07;
+  --bg-soft: #0a0f09;
+  --panel: #121b13;
+  --panel-2: #1a2419;
+  --panel-3: #232f20;
+  --line: #465c39;
+  --line-soft: rgba(214, 166, 47, 0.16);
+  --text: #f3f6ec;
+  --muted: #a9b79c;
+  --accent: #d6a62f;
+  --accent-2: #f2c75b;
+  --deep: #6a4d10;
+  --ember: #e08a3c;
+  --good: #7cd9a8;
+  --gold: #eac869;
+  --display: "Bahnschrift SemiBold Condensed", "Bahnschrift", "Segoe UI Semibold", "Segoe UI", system-ui, sans-serif;
   --radius: 18px;
   --radius-sm: 12px;
   --shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.9);
@@ -37,12 +39,16 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+[id] {
+  scroll-margin-top: calc(var(--header-h) + 16px);
+}
+
 body {
   margin: 0;
   color: var(--text);
   background:
-    radial-gradient(1000px 620px at 82% -8%, rgba(232, 17, 56, 0.16), transparent 62%),
-    radial-gradient(800px 520px at -12% 18%, rgba(255, 138, 77, 0.06), transparent 60%),
+    radial-gradient(1000px 620px at 82% -8%, rgba(214, 166, 47, 0.14), transparent 62%),
+    radial-gradient(800px 520px at -12% 18%, rgba(94, 122, 75, 0.1), transparent 60%),
     var(--bg);
   font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
@@ -62,7 +68,7 @@ a {
 }
 
 a:hover {
-  color: #ff7a8d;
+  color: #ffd97a;
 }
 
 button {
@@ -72,16 +78,16 @@ button {
 code {
   font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
   font-size: 0.88em;
-  color: #ffb3c0;
-  background: rgba(232, 17, 56, 0.08);
-  border: 1px solid rgba(232, 17, 56, 0.16);
+  color: #f6d98b;
+  background: rgba(214, 166, 47, 0.08);
+  border: 1px solid rgba(214, 166, 47, 0.16);
   padding: 1px 6px;
   border-radius: 5px;
 }
 
 ::selection {
-  background: rgba(232, 17, 56, 0.55);
-  color: #fff;
+  background: rgba(214, 166, 47, 0.55);
+  color: #1b1506;
 }
 
 :focus-visible {
@@ -127,9 +133,9 @@ section[id],
 }
 
 .section-alt {
-  background: linear-gradient(180deg, rgba(16, 10, 13, 0.55), rgba(10, 5, 7, 0.2));
-  border-top: 1px solid rgba(53, 23, 32, 0.55);
-  border-bottom: 1px solid rgba(53, 23, 32, 0.55);
+  background: linear-gradient(180deg, rgba(18, 27, 19, 0.55), rgba(10, 15, 9, 0.2));
+  border-top: 1px solid rgba(70, 92, 57, 0.55);
+  border-bottom: 1px solid rgba(70, 92, 57, 0.55);
 }
 
 .section-head {
@@ -153,6 +159,7 @@ h1,
 h2,
 h3 {
   margin: 0;
+  font-family: var(--display);
   line-height: 1.12;
   letter-spacing: -0.02em;
 }
@@ -176,15 +183,15 @@ h2 {
   position: sticky;
   top: 0;
   z-index: 90;
-  background: rgba(6, 3, 5, 0.76);
-  border-bottom: 1px solid rgba(53, 23, 32, 0.6);
+  background: rgba(7, 10, 7, 0.76);
+  border-bottom: 1px solid rgba(70, 92, 57, 0.6);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   transition: background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .site-header.scrolled {
-  background: rgba(6, 3, 5, 0.94);
+  background: rgba(7, 10, 7, 0.94);
   box-shadow: 0 16px 40px -30px #000;
 }
 
@@ -216,11 +223,12 @@ h2 {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  box-shadow: 0 6px 18px -8px rgba(232, 17, 56, 0.8);
+  box-shadow: 0 6px 18px -8px rgba(214, 166, 47, 0.8);
 }
 
 .brand-text strong {
   display: block;
+  font-family: var(--display);
   font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -317,29 +325,29 @@ h2 {
 }
 
 .btn-primary {
-  color: #fff;
-  background: linear-gradient(180deg, #ff2a4b 0%, #d40f31 52%, #8e0a21 100%);
+  color: #1b1506;
+  background: linear-gradient(180deg, #f2c75b 0%, #d6a62f 52%, #6a4d10 100%);
   box-shadow:
-    0 14px 34px -14px rgba(232, 17, 56, 0.85),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    0 14px 34px -14px rgba(214, 166, 47, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .btn-primary:hover {
-  color: #fff;
+  color: #1b1506;
   transform: translateY(-1px);
   filter: brightness(1.07);
 }
 
 .btn-ghost {
   color: var(--text);
-  background: rgba(25, 14, 19, 0.65);
+  background: rgba(26, 36, 25, 0.65);
   border-color: var(--line);
 }
 
 .btn-ghost:hover {
   color: var(--text);
-  border-color: rgba(255, 74, 102, 0.5);
-  background: rgba(35, 19, 25, 0.85);
+  border-color: rgba(242, 199, 91, 0.5);
+  background: rgba(35, 47, 32, 0.85);
   transform: translateY(-1px);
 }
 
@@ -359,6 +367,10 @@ h2 {
   position: relative;
   overflow: hidden;
   padding: 76px 0 44px;
+  background:
+    linear-gradient(90deg, rgba(7, 10, 7, 0.97) 0%, rgba(7, 10, 7, 0.86) 38%, rgba(7, 10, 7, 0.58) 68%, rgba(7, 10, 7, 0.82) 100%),
+    radial-gradient(900px 480px at 78% 16%, rgba(214, 166, 47, 0.16), transparent 62%),
+    url("assets/cod-theme.jpg") center 34% / cover no-repeat;
 }
 
 .hero::before {
@@ -367,8 +379,8 @@ h2 {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    linear-gradient(rgba(234, 200, 105, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234, 200, 105, 0.035) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(700px 420px at 50% 20%, #000 20%, transparent 75%);
   -webkit-mask-image: radial-gradient(700px 420px at 50% 20%, #000 20%, transparent 75%);
@@ -392,8 +404,8 @@ h2 {
   gap: 9px;
   padding: 7px 13px;
   color: var(--accent-2);
-  background: rgba(232, 17, 56, 0.08);
-  border: 1px solid rgba(232, 17, 56, 0.34);
+  background: rgba(214, 166, 47, 0.08);
+  border: 1px solid rgba(214, 166, 47, 0.34);
   border-radius: 999px;
   font-size: 11px;
   font-weight: 600;
@@ -420,7 +432,7 @@ h2 {
 .hero h1 em {
   font-style: normal;
   color: var(--accent-2);
-  text-shadow: 0 0 34px rgba(232, 17, 56, 0.38);
+  text-shadow: 0 0 34px rgba(214, 166, 47, 0.38);
 }
 
 .hero-lead {
@@ -462,7 +474,7 @@ h2 {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(255, 74, 102, 0.7);
+  background: rgba(242, 199, 91, 0.7);
 }
 
 .hero-visual {
@@ -474,13 +486,13 @@ h2 {
   position: relative;
   margin: 0;
   padding: 10px;
-  background: linear-gradient(180deg, #190e13, #0a0507);
-  border: 1px solid rgba(255, 74, 102, 0.22);
+  background: linear-gradient(180deg, #1a2419, #0a0f09);
+  border: 1px solid rgba(242, 199, 91, 0.22);
   border-radius: var(--radius);
   box-shadow:
     var(--shadow),
     0 0 0 1px rgba(0, 0, 0, 0.45),
-    0 0 90px -30px rgba(232, 17, 56, 0.45);
+    0 0 90px -30px rgba(214, 166, 47, 0.45);
 }
 
 .shot-frame::after {
@@ -489,7 +501,7 @@ h2 {
   inset: -1px;
   border-radius: inherit;
   pointer-events: none;
-  background: radial-gradient(560px 180px at 76% -10%, rgba(232, 17, 56, 0.22), transparent 62%);
+  background: radial-gradient(560px 180px at 76% -10%, rgba(214, 166, 47, 0.22), transparent 62%);
 }
 
 .frame-bar {
@@ -507,7 +519,7 @@ h2 {
 }
 
 .frame-dot:nth-child(1) {
-  background: #7c091b;
+  background: #6a4d10;
 }
 
 .frame-dot:nth-child(2) {
@@ -526,7 +538,7 @@ h2 {
   display: block;
   width: 100%;
   height: auto;
-  border: 1px solid rgba(53, 23, 32, 0.85);
+  border: 1px solid rgba(70, 92, 57, 0.85);
   border-radius: 11px;
 }
 
@@ -545,7 +557,7 @@ h2 {
   gap: 6px;
   padding: 10px 14px;
   color: var(--muted);
-  background: rgba(16, 10, 13, 0.94);
+  background: rgba(18, 27, 19, 0.94);
   border: 1px solid var(--line);
   border-radius: 12px;
   box-shadow: 0 18px 40px -18px #000;
@@ -562,9 +574,9 @@ h2 {
 /* --------------------------------------------------------------- sources -- */
 
 .sources {
-  background: rgba(16, 10, 13, 0.45);
-  border-top: 1px solid rgba(53, 23, 32, 0.55);
-  border-bottom: 1px solid rgba(53, 23, 32, 0.55);
+  background: rgba(18, 27, 19, 0.45);
+  border-top: 1px solid rgba(70, 92, 57, 0.55);
+  border-bottom: 1px solid rgba(70, 92, 57, 0.55);
 }
 
 .sources-inner {
@@ -622,7 +634,7 @@ h2 {
 .feature {
   position: relative;
   padding: 26px;
-  background: linear-gradient(180deg, rgba(25, 14, 19, 0.88), rgba(16, 10, 13, 0.9));
+  background: linear-gradient(180deg, rgba(26, 36, 25, 0.88), rgba(18, 27, 19, 0.9));
   border: 1px solid var(--line);
   border-radius: var(--radius);
   transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
@@ -630,8 +642,8 @@ h2 {
 
 .feature:hover {
   transform: translateY(-3px);
-  border-color: rgba(232, 17, 56, 0.38);
-  box-shadow: 0 24px 50px -28px rgba(232, 17, 56, 0.45);
+  border-color: rgba(214, 166, 47, 0.38);
+  box-shadow: 0 24px 50px -28px rgba(214, 166, 47, 0.45);
 }
 
 .feature .icon {
@@ -641,8 +653,8 @@ h2 {
   height: 44px;
   margin-bottom: 18px;
   color: var(--accent-2);
-  background: rgba(232, 17, 56, 0.1);
-  border: 1px solid rgba(232, 17, 56, 0.26);
+  background: rgba(214, 166, 47, 0.1);
+  border: 1px solid rgba(214, 166, 47, 0.26);
   border-radius: 12px;
 }
 
@@ -665,8 +677,8 @@ h2 {
   right: 18px;
   padding: 4px 8px;
   color: var(--gold);
-  background: rgba(246, 198, 80, 0.08);
-  border: 1px solid rgba(246, 198, 80, 0.35);
+  background: rgba(234, 200, 105, 0.08);
+  border: 1px solid rgba(234, 200, 105, 0.35);
   border-radius: 999px;
   font-size: 9.5px;
   font-weight: 700;
@@ -688,9 +700,9 @@ h2 {
   overflow: hidden;
   padding: 34px;
   background:
-    radial-gradient(720px 300px at 8% 0%, rgba(232, 17, 56, 0.2), transparent 58%),
-    linear-gradient(180deg, #190e13, #0c0608);
-  border: 1px solid rgba(232, 17, 56, 0.28);
+    radial-gradient(720px 300px at 8% 0%, rgba(214, 166, 47, 0.2), transparent 58%),
+    linear-gradient(180deg, #1a2419, #0a0f09);
+  border: 1px solid rgba(214, 166, 47, 0.28);
   border-radius: 22px;
 }
 
@@ -699,7 +711,7 @@ h2 {
   position: absolute;
   right: -10px;
   bottom: -42px;
-  color: rgba(232, 17, 56, 0.06);
+  color: rgba(214, 166, 47, 0.06);
   font-size: 190px;
   font-weight: 800;
   letter-spacing: -0.08em;
@@ -711,8 +723,8 @@ h2 {
   display: inline-block;
   padding: 5px 10px;
   color: var(--accent-2);
-  background: rgba(232, 17, 56, 0.1);
-  border: 1px solid rgba(232, 17, 56, 0.3);
+  background: rgba(214, 166, 47, 0.1);
+  border: 1px solid rgba(214, 166, 47, 0.3);
   border-radius: 999px;
   font-size: 10.5px;
   font-weight: 700;
@@ -750,7 +762,7 @@ h2 {
   height: 8px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 12px rgba(232, 17, 56, 0.7);
+  box-shadow: 0 0 12px rgba(214, 166, 47, 0.7);
 }
 
 .bullets strong {
@@ -763,7 +775,7 @@ h2 {
   gap: 18px 34px;
   margin-top: 28px;
   padding-top: 22px;
-  border-top: 1px solid rgba(53, 23, 32, 0.8);
+  border-top: 1px solid rgba(70, 92, 57, 0.8);
 }
 
 .stat strong {
@@ -852,7 +864,7 @@ h2 {
 }
 
 .gallery figure:hover {
-  border-color: rgba(232, 17, 56, 0.35);
+  border-color: rgba(214, 166, 47, 0.35);
   transform: translateY(-2px);
 }
 
@@ -937,7 +949,7 @@ h2 {
   margin: 22px 0 0;
   padding: 15px 18px;
   color: var(--muted);
-  background: rgba(246, 198, 80, 0.06);
+  background: rgba(234, 200, 105, 0.06);
   border-left: 3px solid var(--gold);
   border-radius: 0 10px 10px 0;
   font-size: 13.5px;
@@ -949,22 +961,91 @@ h2 {
 
 /* -------------------------------------------------------------- download -- */
 
-.download {
+.platforms {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-  gap: 40px;
-  align-items: center;
-  padding: 46px;
-  background:
-    radial-gradient(900px 380px at 50% -10%, rgba(232, 17, 56, 0.22), transparent 60%),
-    linear-gradient(180deg, #190e13, #0a0507);
-  border: 1px solid rgba(232, 17, 56, 0.3);
-  border-radius: 26px;
-  box-shadow: 0 40px 100px -50px rgba(232, 17, 56, 0.5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
 }
 
-.download h2 {
-  margin-top: 8px;
+.platform {
+  display: flex;
+  flex-direction: column;
+  padding: 34px;
+  background:
+    radial-gradient(700px 320px at 50% -10%, rgba(214, 166, 47, 0.18), transparent 60%),
+    linear-gradient(180deg, #1a2419, #0a0f09);
+  border: 1px solid rgba(214, 166, 47, 0.3);
+  border-radius: 24px;
+  box-shadow: 0 40px 100px -50px rgba(214, 166, 47, 0.5);
+}
+
+.platform-android {
+  background:
+    radial-gradient(700px 320px at 50% -10%, rgba(124, 217, 168, 0.14), transparent 60%),
+    linear-gradient(180deg, #182219, #0a0f09);
+  border-color: rgba(124, 217, 168, 0.32);
+  box-shadow: 0 40px 100px -50px rgba(124, 217, 168, 0.35);
+}
+
+.platform-head {
+  margin-bottom: 4px;
+}
+
+.platform-tag {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 5px 10px;
+  color: var(--gold);
+  background: rgba(234, 200, 105, 0.08);
+  border: 1px solid rgba(234, 200, 105, 0.3);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.platform-android .platform-tag {
+  color: var(--good);
+  background: rgba(124, 217, 168, 0.08);
+  border-color: rgba(124, 217, 168, 0.32);
+}
+
+.platform h3 {
+  font-size: 24px;
+}
+
+.platform-head p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.platform .meta-grid {
+  margin: 20px 0;
+}
+
+.platform .download-actions {
+  margin-top: 4px;
+}
+
+.platform-note {
+  margin: 16px 0 0;
+  padding-top: 14px;
+  color: var(--muted);
+  border-top: 1px solid rgba(70, 92, 57, 0.7);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.platform-note strong {
+  color: var(--text);
+}
+
+.update-card-wide {
+  margin-top: 24px;
 }
 
 .meta-grid {
@@ -976,7 +1057,7 @@ h2 {
 
 .meta-item {
   padding: 12px 14px;
-  background: rgba(6, 3, 5, 0.45);
+  background: rgba(7, 10, 7, 0.45);
   border: 1px solid var(--line);
   border-radius: 10px;
 }
@@ -999,13 +1080,13 @@ h2 {
 
 .hash-box {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px 10px;
-  margin-bottom: 22px;
+  gap: 7px 10px;
+  margin-bottom: 18px;
   padding: 12px 14px;
-  background: rgba(6, 3, 5, 0.65);
+  background: rgba(7, 10, 7, 0.65);
   border: 1px solid var(--line);
   border-radius: 10px;
 }
@@ -1018,7 +1099,8 @@ h2 {
 }
 
 .hash-box code {
-  flex: 1 1 260px;
+  grid-column: 1 / -1;
+  grid-row: 2;
   overflow-wrap: anywhere;
   color: var(--muted);
   background: none;
@@ -1026,6 +1108,12 @@ h2 {
   padding: 0;
   font-size: 10.5px;
   line-height: 1.5;
+}
+
+.hash-box .copy-btn {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
 }
 
 .copy-btn {
@@ -1040,7 +1128,7 @@ h2 {
 }
 
 .copy-btn:hover {
-  border-color: rgba(255, 74, 102, 0.5);
+  border-color: rgba(242, 199, 91, 0.5);
   color: var(--accent-2);
 }
 
@@ -1057,7 +1145,7 @@ h2 {
 
 .update-card {
   padding: 28px;
-  background: rgba(6, 3, 5, 0.55);
+  background: rgba(7, 10, 7, 0.55);
   border: 1px solid var(--line);
   border-radius: 18px;
 }
@@ -1079,7 +1167,7 @@ h2 {
 
 .update-hint {
   padding-top: 12px;
-  border-top: 1px solid rgba(53, 23, 32, 0.75);
+  border-top: 1px solid rgba(70, 92, 57, 0.75);
   font-size: 12.5px !important;
 }
 
@@ -1100,7 +1188,7 @@ h2 {
 }
 
 .faq details[open] {
-  border-color: rgba(232, 17, 56, 0.3);
+  border-color: rgba(214, 166, 47, 0.3);
 }
 
 .faq summary {
@@ -1129,7 +1217,7 @@ h2 {
 }
 
 .faq details[open] summary::after {
-  content: "–";
+  content: "â€“";
 }
 
 .faq details p {
@@ -1148,7 +1236,7 @@ h2 {
 .site-footer {
   margin-top: 40px;
   padding: 44px 0 28px;
-  background: #050203;
+  background: #050805;
   border-top: 1px solid var(--line);
 }
 
@@ -1215,12 +1303,12 @@ h2 {
   max-width: var(--max);
   margin: 30px auto 0;
   padding: 22px 24px 0;
-  border-top: 1px solid rgba(53, 23, 32, 0.7);
+  border-top: 1px solid rgba(70, 92, 57, 0.7);
 }
 
 .footer-legal p {
   margin: 0;
-  color: rgba(166, 140, 147, 0.75);
+  color: rgba(169, 183, 156, 0.75);
   font-size: 11.5px;
 }
 
@@ -1233,7 +1321,7 @@ h2 {
   display: none;
   place-items: center;
   padding: 26px;
-  background: rgba(3, 1, 2, 0.9);
+  background: rgba(3, 5, 3, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -1279,7 +1367,7 @@ h2 {
   width: 44px;
   height: 44px;
   color: var(--text);
-  background: rgba(25, 14, 19, 0.85);
+  background: rgba(26, 36, 25, 0.85);
   border: 1px solid var(--line);
   border-radius: 50%;
   font-size: 26px;
@@ -1288,10 +1376,18 @@ h2 {
 }
 
 .lightbox-close:hover {
-  border-color: rgba(255, 74, 102, 0.55);
+  border-color: rgba(242, 199, 91, 0.55);
 }
 
 /* --------------------------------------------------------------- reveal -- */
+
+/* O Netlify injeta o selo "Powered by Netlify" num iframe no fim do body.
+   O iframe pertence ao nosso documento, então o host é ocultado aqui e no JS. */
+#nl-badge-frame {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 
 body.reveal-ready .reveal {
   opacity: 0;
@@ -1344,7 +1440,7 @@ body.reveal-ready .reveal.visible {
     gap: 2px;
     margin: 0;
     padding: 12px;
-    background: rgba(16, 10, 13, 0.98);
+    background: rgba(18, 27, 19, 0.98);
     border: 1px solid var(--line);
     border-radius: 14px;
     box-shadow: 0 30px 60px -30px #000;
@@ -1368,8 +1464,8 @@ body.reveal-ready .reveal.visible {
     display: inline-flex;
     justify-content: center;
     margin-top: 8px;
-    color: #fff !important;
-    background: linear-gradient(180deg, #ff2a4b, #b30d28);
+    color: #1b1506 !important;
+    background: linear-gradient(180deg, #d6a62f, #8a6916);
     font-weight: 600;
   }
 
@@ -1395,10 +1491,12 @@ body.reveal-ready .reveal.visible {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .download {
+  .platforms {
     grid-template-columns: minmax(0, 1fr);
-    padding: 32px;
-    gap: 28px;
+  }
+
+  .platform {
+    padding: 28px;
   }
 
   .sources-note {
@@ -1441,9 +1539,13 @@ body.reveal-ready .reveal.visible {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .download {
+  .platform {
     padding: 24px;
     border-radius: 20px;
+  }
+
+  .platform .meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .download-actions .btn {

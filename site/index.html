@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Solo Mangás — leitor de mangás para Windows</title>
-  <meta name="description" content="Leitor de mangás nativo para Windows com oito fontes em português, rolagem contínua, histórico, favoritos e atualização com SHA-256. Versão 2.9.2 com Suki Mangás e GoMangas e leitor mais rápido. Download grátis, executável único.">
+  <title>Solo Mangás — leitor de mangás para Windows e Android</title>
+  <meta name="description" content="Leitor de mangás nativo para Windows e Android com fontes em português, rolagem contínua, histórico, favoritos e atualização com SHA-256. Versão 2.9.2 no Windows e APK 1.0.2 no Android. Download grátis, sem instalação no PC.">
   <meta name="theme-color" content="#070a07">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:title" content="Solo Mangás — leitor de mangás para Windows">
-  <meta property="og:description" content="Oito fontes em português, leitor nativo sem WebView2, histórico e favoritos. A 2.9.2 adiciona Suki Mangás e GoMangas e acelera o carregamento das páginas.">
+  <meta property="og:title" content="Solo Mangás — leitor de mangás para Windows e Android">
+  <meta property="og:description" content="Oito fontes em português no Windows, cinco no Android, leitor nativo sem WebView2, histórico e favoritos. Baixe o executável 2.9.2 ou o APK 1.0.2.">
   <meta property="og:image" content="assets/screenshots/home.png">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="assets/logo.png">
@@ -54,11 +54,12 @@
     <section class="hero">
       <div class="hero-inner">
         <div class="hero-copy">
-          <span class="eyebrow"><span class="dot"></span> v2.9.2 · oito fontes em português</span>
+          <span class="eyebrow"><span class="dot"></span> Windows 2.9.2 · Android 1.0.2</span>
           <h1>Seu leitor de mangás, <em>nativo de verdade</em>.</h1>
           <p class="hero-lead">
-            Oito fontes em português, leitor em rolagem contínua e sua leitura salva de onde parou.
-            Um único executável para Windows — sem navegador embutido, sem instalação, sem anúncios no app.
+            Oito fontes em português no Windows, cinco no Android, leitor em rolagem contínua e sua
+            leitura salva de onde parou. No PC é um executável único; no celular, um APK assinado.
+            Sem conta obrigatória e sem anúncios no app.
           </p>
 
           <div class="hero-actions">
@@ -66,13 +67,16 @@
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               Baixar para Windows
             </a>
-            <a class="btn btn-ghost btn-lg" href="#novidades">O que mudou na 2.9.2</a>
+            <a class="btn btn-ghost btn-lg" href="#android">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 5.5h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="18.2" r="1" fill="currentColor"/></svg>
+              Baixar para Android
+            </a>
           </div>
 
           <ul class="hero-meta" aria-label="Informações do download">
             <li>Windows 10/11 · 64 bits</li>
-            <li>≈ 83 MB · arquivo único</li>
-            <li>Grátis</li>
+            <li>Android 7.0 ou mais novo</li>
+            <li>Grátis · sem conta obrigatória</li>
           </ul>
         </div>
 
@@ -82,8 +86,8 @@
               <span class="frame-dot"></span><span class="frame-dot"></span><span class="frame-dot"></span>
               <span class="frame-title">Solo Mangás 2.9.2</span>
             </div>
-            <img src="assets/screenshots/home.png" width="1366" height="768" alt="Tela inicial do Solo Mangás com o tema Call of Duty: foto real de fundo, dourado e Martial Peak em destaque.">
-            <figcaption class="frame-caption">Início · Mangeek — tema Call of Duty, destaque e “Continuar lendo”.</figcaption>
+            <img src="assets/screenshots/home.png" width="1366" height="768" alt="Tela inicial do Solo Mangás 2.9.2 no tema Call of Duty, com foto real de fundo, dourado e O verão em que Hikaru morreu em destaque na Suki Mangás.">
+            <figcaption class="frame-caption">Início · Suki Mangás — tema Call of Duty, oito fontes e “Continuar lendo”.</figcaption>
           </figure>
           <span class="float-badge"><strong>2</strong> temas: Call of Duty e Sangue &amp; aço</span>
         </div>
@@ -248,7 +252,7 @@
         <div class="gallery">
           <figure class="reveal">
             <button class="shot" type="button" data-full="assets/screenshots/home.png" data-title="Início" data-caption="Cabeçalho fixo com busca, destaque e a faixa Continuar lendo com o progresso de cada obra." aria-label="Ampliar captura da tela inicial">
-              <img src="assets/screenshots/home.png" width="1366" height="768" loading="lazy" alt="Tela inicial com Doctor's Rebirth em destaque e três obras em Continuar lendo.">
+              <img src="assets/screenshots/home.png" width="1366" height="768" loading="lazy" alt="Tela inicial 2.9.2 com O verão em que Hikaru morreu em destaque na Suki Mangás e cinco obras em Continuar lendo.">
             </button>
             <figcaption><b>Início</b> Destaque, fontes e “Continuar lendo” com progresso.</figcaption>
           </figure>
@@ -316,21 +320,31 @@
           </article>
         </div>
 
-        <p class="note reveal"><strong>Requisitos:</strong> Windows 10 ou 11, 64 bits. O executável é self-contained — o runtime do .NET já vai dentro dele.</p>
+        <p class="note reveal"><strong>Requisitos:</strong> Windows 10 ou 11, 64 bits — o executável é self-contained e leva o runtime do .NET dentro. <strong>Android:</strong> 7.0 ou mais novo; o APK é universal e instala por cima da versão anterior, mantendo favoritos, histórico e posições.</p>
       </div>
     </section>
 
     <section id="download" class="section">
       <div class="container">
-        <div class="download reveal">
+        <div class="section-head reveal">
           <div>
             <span class="kicker">Download</span>
             <h2>Baixe a versão 2.9.2</h2>
-            <p class="lead">Executável único para Windows 10/11 64 bits. Sem instalador e sem conta obrigatória.</p>
+            <p class="lead">Escolha a plataforma. Nenhuma das duas pede instalação no PC, conta ou assinatura.</p>
+          </div>
+        </div>
 
-            <div class="meta-grid" aria-label="Detalhes da versão">
+        <div class="platforms">
+          <article class="platform reveal">
+            <header class="platform-head">
+              <span class="platform-tag">Windows 10/11 · x64</span>
+              <h3>Solo Mangás 2.9.2</h3>
+              <p>Executável único de 83,1 MB com o runtime do .NET embutido. Oito fontes em português e leitor em cache.</p>
+            </header>
+
+            <div class="meta-grid" aria-label="Detalhes da versão Windows">
               <div class="meta-item"><span>Versão</span><strong>2.9.2</strong></div>
-              <div class="meta-item"><span>Tamanho</span><strong>83068696 bytes</strong></div>
+              <div class="meta-item"><span>Tamanho</span><strong>83.068.696 bytes</strong></div>
               <div class="meta-item"><span>Publicada</span><strong>20/11/2026</strong></div>
               <div class="meta-item"><span>Requisitos</span><strong>Windows 10/11 · x64</strong></div>
             </div>
@@ -342,20 +356,53 @@
             </div>
 
             <div class="download-actions">
-              <a class="btn btn-primary btn-lg" href="https://github.com/flugel0706/solo-mangas/releases/download/v2.9.2/Solo-Mangas-2.9.2.exe" download>
-                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Baixar Solo Mangás 2.9.2
+              <a class="btn btn-primary" href="https://github.com/flugel0706/solo-mangas/releases/download/v2.9.2/Solo-Mangas-2.9.2.exe" download>
+                <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Baixar para Windows
               </a>
               <a class="btn btn-ghost" href="update.json" target="_blank" rel="noopener">Abrir update.json</a>
             </div>
-          </div>
 
-          <aside class="update-card">
-            <h3>Já tem a 2.5 ou mais nova?</h3>
-            <p>Atualize pelo próprio app: em <strong>Configurações → Origem das atualizações</strong>, cole o endereço do <code>update.json</code> desta página e use <strong>Verificar atualizações</strong>. O app baixa, confere o SHA-256 e troca o executável sozinho.</p>
-            <p class="update-hint">O link do manifesto é o botão “Abrir update.json” ao lado — copie o endereço dele na barra do navegador.</p>
-          </aside>
+            <p class="platform-note"><strong>SmartScreen:</strong> o executável não tem certificado comercial pago. Se o Windows avisar, clique em “Mais informações” e depois em “Executar assim mesmo”. O SHA-256 acima confere o arquivo baixado.</p>
+          </article>
+
+          <article class="platform platform-android reveal" id="android">
+            <header class="platform-head">
+              <span class="platform-tag">Android 7.0+ · APK assinado</span>
+              <h3>Solo Mangás 1.0.2</h3>
+              <p>Aplicativo em Kotlin com Mangeek, Manhastro, MangaDex, MangaFlix e MangaLivre. Leitor em rolagem contínua, histórico, favoritos e o +18 da MangaDex.</p>
+            </header>
+
+            <div class="meta-grid" aria-label="Detalhes da versão Android">
+              <div class="meta-item"><span>Versão</span><strong>1.0.2 · build 3</strong></div>
+              <div class="meta-item"><span>Tamanho</span><strong>2.101.683 bytes</strong></div>
+              <div class="meta-item"><span>Pacote</span><strong>br.com.solomangas</strong></div>
+              <div class="meta-item"><span>Requisitos</span><strong>Android 7.0+ · universal</strong></div>
+            </div>
+
+            <div class="hash-box">
+              <span class="hash-label">SHA-256</span>
+              <code id="sha256-android">F1FA348CBFFD32CF70F5BF6093774C0DCAD05E78DFFC05C1A2B7825D03809A86</code>
+              <button class="copy-btn" type="button" data-copy="F1FA348CBFFD32CF70F5BF6093774C0DCAD05E78DFFC05C1A2B7825D03809A86">Copiar</button>
+            </div>
+
+            <div class="download-actions">
+              <a class="btn btn-primary" href="https://github.com/flugel0706/solo-mangas/releases/download/v2.9.2/Solo-Mangas-1.0.2-android.apk" download>
+                <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Baixar APK
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/flugel0706/solo-mangas/releases/tag/v2.9.2" target="_blank" rel="noopener">Notas da versão</a>
+            </div>
+
+            <p class="platform-note"><strong>Instalação:</strong> abra o APK no aparelho e permita “Instalar apps desconhecidos” para o navegador ou gerenciador de arquivos. O APK é assinado e universal — não depende do Play Store. A versão Android tem cinco fontes; as oito fontes estão na versão Windows.</p>
+          </article>
         </div>
+
+        <aside class="update-card update-card-wide reveal">
+          <h3>Já tem a 2.5 ou mais nova no Windows?</h3>
+          <p>Atualize pelo próprio app: em <strong>Configurações → Origem das atualizações</strong>, cole o endereço do <code>update.json</code> desta página e use <strong>Verificar atualizações</strong>. O app baixa, confere o SHA-256 e troca o executável sozinho.</p>
+          <p class="update-hint">O link do manifesto é o botão “Abrir update.json” no cartão do Windows — copie o endereço dele na barra do navegador. O Android 1.0.2 é instalado manualmente por cima da versão anterior; favoritos, histórico e posições são preservados.</p>
+        </aside>
       </div>
     </section>
 
@@ -375,7 +422,7 @@
           </details>
           <details class="reveal">
             <summary>Preciso instalar alguma coisa?</summary>
-            <p>Não. É um único executável self-contained. O runtime do .NET e as bibliotecas usadas já estão embutidos no arquivo.</p>
+            <p>No Windows, não: é um único executável self-contained, com o runtime do .NET e as bibliotecas embutidos. No Android, basta instalar o APK uma vez; as atualizações seguintes são instaladas por cima, sem perder os dados.</p>
           </details>
           <details class="reveal">
             <summary>O Windows avisou que o app não é reconhecido. Devo me preocupar?</summary>
@@ -398,6 +445,14 @@
             <p>Sim, de forma opcional e desligada por padrão. O modo +18 só aparece quando você o ativa, e o conteúdo é destinado exclusivamente a maiores de 18 anos.</p>
           </details>
           <details class="reveal">
+            <summary>Existe versão para Android?</summary>
+            <p>Sim. O APK 1.0.2 está na seção de download, é assinado e roda no Android 7.0 ou mais novo. Ele traz cinco fontes — Mangeek, Manhastro, MangaDex, MangaFlix e MangaLivre —, com o modo +18 da MangaDex, favoritos, histórico e posições salvos no aparelho. A instalação é manual, por cima da versão anterior, e não depende do Play Store.</p>
+          </details>
+          <details class="reveal">
+            <summary>Por que o Android tem menos fontes que o Windows?</summary>
+            <p>O app Android é um porte em Kotlin com as fontes principais; Suki Mangás, GoMangas e Ler Mangá ainda não foram portadas. A versão Windows 2.9.2 é a principal e concentra as oito fontes e o leitor com cache de páginas.</p>
+          </details>
+          <details class="reveal">
             <summary>Como atualizo para a próxima versão?</summary>
             <p>Com o <code>update.json</code> configurado em <strong>Configurações → Origem das atualizações</strong>, basta usar <strong>Verificar atualizações</strong>. Também é possível baixar o novo executável manualmente e substituir o antigo.</p>
           </details>
@@ -412,7 +467,7 @@
         <img src="assets/logo.png" alt="" width="44" height="44">
         <div>
           <strong>Solo Mangás</strong>
-          <p>Leitor de mangás nativo para Windows. C# e WPF, sem WebView2.</p>
+          <p>Leitor de mangás nativo para Windows e Android. C#/WPF no desktop, Kotlin no celular, sem WebView2.</p>
         </div>
       </div>
 
@@ -423,12 +478,13 @@
         <a href="#como-usar">Como usar</a>
         <a href="#faq">FAQ</a>
         <a href="#download">Download</a>
+        <a href="#android">Android</a>
         <a href="https://github.com/flugel0706/solo-mangas">GitHub</a>
       </nav>
     </div>
 
     <div class="footer-legal">
-      <p>© 2026 Solo Mangás · versão 2.9.2 · 20/11/2026</p>
+      <p>© 2026 Solo Mangás · Windows 2.9.2 · Android 1.0.2 · 20/11/2026</p>
       <p>As obras exibidas pertencem aos seus autores e às fontes originais. Este site não hospeda mangás.</p>
     </div>
   </footer>

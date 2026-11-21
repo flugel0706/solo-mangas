@@ -181,4 +181,25 @@
       }, 2200);
     });
   });
+
+  /* -------------------------------------------------------- netlify badge -- */
+
+  // O edge do Netlify injeta o selo num iframe fixo no fim do body. O host do
+  // iframe está no nosso documento, então escondemos o elemento e o mantemos
+  // escondido caso o script recrie ou reexiba a moldura.
+  const hideNetlifyBadge = () => {
+    const frame = document.getElementById('nl-badge-frame');
+    if (!frame) return;
+
+    frame.style.setProperty('display', 'none', 'important');
+    frame.style.setProperty('visibility', 'hidden', 'important');
+    frame.setAttribute('aria-hidden', 'true');
+    frame.setAttribute('tabindex', '-1');
+  };
+
+  hideNetlifyBadge();
+  new MutationObserver(hideNetlifyBadge).observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
 })();

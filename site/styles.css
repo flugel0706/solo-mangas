@@ -707,7 +707,7 @@ h2 {
 }
 
 .release-main::after {
-  content: "2.6";
+  content: "2.9";
   position: absolute;
   right: -10px;
   bottom: -42px;

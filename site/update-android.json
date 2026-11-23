@@ -1,8 +1,8 @@
 {
-  "versionCode": 4,
-  "versionName": "1.1.0",
-  "apkUrl": "https://github.com/flugel0706/solo-mangas/releases/download/android-1.1.0/Solo-Mangas-1.1.0-android.apk",
-  "sha256": "2B603C0CA69C6A0CBDCB28EB423C1057A357B2DA0FB64E85E459C680F60DCCB9",
-  "size": 2134411,
-  "notes": "1.1.0 — tema Call of Duty, páginas longas corrigidas e atualização pelo app\n\n• Tema Call of Duty portado do PC 2.9.2: carvão/oliva e dourado\n• Leitor em faixas: páginas webtoon de até 14.485 px não ficam mais pretas\n• Fallback de decodificação para WebP sem região e AVIF\n• Lazy-load corrigido: data-src, data-lazy-src, data-original e srcset\n• Atualização dentro do app com progresso, SHA-256 e instalador\n• Favoritos, histórico e posições preservados"
+  "versionCode": 5,
+  "versionName": "1.1.1",
+  "apkUrl": "https://github.com/flugel0706/solo-mangas/releases/download/android-1.1.1/Solo-Mangas-1.1.1-android.apk",
+  "sha256": "A1EA58276D2A999B8519948395CE6F19DE3835778F61427CE48B442F87E9EC83",
+  "size": 3742625,
+  "notes": "1.1.1 — páginas pretas do Manhastro corrigidas: decodificador AVIF (libavif/dav1d) embutido, com decodificação fora da thread principal e limite de memória. Capas e leitor seguem iguais."
 }

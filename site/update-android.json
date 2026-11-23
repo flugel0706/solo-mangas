@@ -1,8 +1,8 @@
 {
-  "versionCode": 5,
-  "versionName": "1.1.1",
-  "apkUrl": "https://github.com/flugel0706/solo-mangas/releases/download/android-1.1.1/Solo-Mangas-1.1.1-android.apk",
-  "sha256": "A1EA58276D2A999B8519948395CE6F19DE3835778F61427CE48B442F87E9EC83",
+  "versionCode": 6,
+  "versionName": "1.1.2",
+  "apkUrl": "https://github.com/flugel0706/solo-mangas/releases/download/android-1.1.2/Solo-Mangas-1.1.2-android.apk",
+  "sha256": "4E842306081006EC4E82CD3F76B9D4F69845D2145DC0F24C1D61307A4DEE61D9",
   "size": 3742625,
-  "notes": "1.1.1 — páginas pretas do Manhastro corrigidas: decodificador AVIF (libavif/dav1d) embutido, com decodificação fora da thread principal e limite de memória. Capas e leitor seguem iguais."
+  "notes": "1.1.2 - faixas pretas ao rolar páginas WebP corrigidas: as páginas normais agora são decodificadas e desenhadas por inteiro, sem depender da área visível. O decodificador AVIF do Manhastro segue igual."
 }
